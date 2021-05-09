@@ -1,84 +1,56 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-    CssBaseline, Container, Paper, Typography, Grid, Box,
-    Radio, RadioGroup, FormControlLabel, FormControl, FormLabel
-} from "@material-ui/core";
+import { CssBaseline, Container, Paper, Typography, Grid } from "@material-ui/core";
+import GeneralInformation from './components/GeneralInformation';
+import Contacts from './components/Contacts';
+import RegistrationAddress from './components/RegistrationAddress';
+import ActualLocationAddress from "./components/ActualLocationAddress";
+import EducationStatus from "./components/EducationStatus";
+import Employment from "./components/Employment";
+import MainPlaceOfWork from "./components/MainPlaceOfWork";
 
+export enum palleteEnum {
+    colorGrey = "rgb(82, 86, 89)",
+    colorWhite = "rgb(255, 255, 255)",
+    colorBackgroundHeader = "rgb(36, 64, 94)",
+    colorComment = "rgba(255, 255, 255, 0.7)"
+}
 
-const useStyles = makeStyles({
-    outBorder: {
-        border: "1px outset rgb(0, 0, 0)",
+export const useStyles = makeStyles({
+    container: {
+        margin: "auto", 
+        width: "90%",
     },
-    inBorder: {
-        border: "1px inset rgb(0, 0, 0)",
-    }
+    header: {
+        backgroundColor: `${palleteEnum.colorBackgroundHeader}`,
+        color: `${palleteEnum.colorWhite}`,
+        borderRadius: "4px",
+    },
+    comment: {
+        color: `${palleteEnum.colorComment}`,
+    },
 });
 
 let body = document.querySelector("body");
-if (body) body.style.backgroundColor = "rgb(82, 86, 89)";
+if (body) body.style.backgroundColor = palleteEnum.colorGrey;
 
 export default function App() {
-    const classes = useStyles();
-
-    const [value, setValue] = React.useState("female");
-
-    const handleChange = (event: React.BaseSyntheticEvent) => {
-        setValue(event.target.value);
-    };
-
     return (
         <>
             <CssBaseline />
             <Container maxWidth="md">
-                <Paper elevation={1} style={{ "margin": "5px" }}>
+                <Paper elevation={8} style={{ "margin": "50px 0px" }}>
                     <Grid container>
                         <Grid item xs={12}>
-                            <Typography variant="h5" style={{ "marginTop": "50px" }} align="center">Заявление на предоставление кредита</Typography>
-                            <Grid container style={{ "margin": "auto", "width": "90%" }}>
-                                <Grid item xs={12} style={{ "backgroundColor": "rgb(36, 64, 94)", "color": "rgb(255, 255, 255)" }}>
-                                    <Typography variant="h6" align="center">Общая информация</Typography>
-                                </Grid>
-                                <Grid container>
-                                    <Grid item xs={4}>
-                                        <Typography>Фамилия Имя Отчество</Typography>
-                                    </Grid>
-                                    <Grid item xs={8}>
-                                        <Typography align="center">...</Typography>
-                                    </Grid>
-                                    <Grid item xs={4}>
-                                        <Typography>Предыдущее ФИО</Typography>
-                                    </Grid>
-                                    <Grid item xs={8}>
-                                        <Typography align="center">...</Typography>
-                                    </Grid>
-                                    <Grid item xs={2}>
-                                        <Typography component="p">Пол</Typography>
-                                    </Grid>
-                                    <Grid item xs={2}>
-                                        <FormControl component="fieldset">
-                                            <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}>
-                                                <FormControlLabel value="Female" control={<Radio />} label="Женский" />
-                                                <FormControlLabel value="Male" control={<Radio />} label="Мужской" />
-                                            </RadioGroup>
-                                        </FormControl>
-                                    </Grid>
-                                    <Grid item xs={2}>
-                                        <Typography component="p">Гражданство</Typography>
-                                    </Grid>
-                                    <Grid item xs={2}>
-                                        <FormControl component="fieldset">
-                                            <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}>
-                                                <FormControlLabel value="RF" control={<Radio />} label="РФ" />
-                                                <FormControlLabel value="Otherwise" control={<Radio />} label="Иное" />
-                                            </RadioGroup>
-                                        </FormControl>
-                                    </Grid>
-                                    <Grid item xs={2}></Grid>
-                                    <Grid item xs={2}></Grid>
-                                </Grid>
-                            </Grid>
+                            <Typography variant="h5" style={{ "margin": "50px 0 25px 0" }} align="center">Заявление на предоставление кредита</Typography>
                         </Grid>
+                        <GeneralInformation />
+                        <Contacts />
+                        <RegistrationAddress />
+                        <ActualLocationAddress />
+                        <EducationStatus />
+                        <Employment />
+                        <MainPlaceOfWork />
                     </Grid>
                 </Paper>
             </Container>
