@@ -5,11 +5,11 @@ import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
 import { FormControlLabel, Grid, Typography } from '@material-ui/core';
 import { palleteEnum } from '../App';
 
-const GreenCheckbox = withStyles({
+const BlueCheckbox = withStyles({
     root: {
-        color: blue[100],
+        color: blue[900],
         '&$checked': {
-            color: blue[200],
+            color: blue[900],
         },
     },
     checked: {},
@@ -42,66 +42,66 @@ export default function Employment() {
                 <Grid item xs={12} sm={6}>
                     <FormControlLabel
                         control={
-                            <Checkbox
+                            <BlueCheckbox
                                 checked={state.lessThanSixMonth}
                                 onChange={handleChange}
                                 name="lessThanSixMonth"
                                 color="primary"
                             />
                         }
-                        label="Менее 6 месяцев"
+                        label="менее 6 месяцев"
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <FormControlLabel
                         control={
-                            <Checkbox
+                            <BlueCheckbox
                                 checked={state.fromSixToOneYear}
                                 onChange={handleChange}
                                 name="fromSixToOneYear"
                                 color="primary"
                             />
                         }
-                        label="От 6 до 1 года"
+                        label="от 6 до 1 года"
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <FormControlLabel
                         control={
-                            <Checkbox
+                            <BlueCheckbox
                                 checked={state.fromOneToThreeYears}
                                 onChange={handleChange}
                                 name="fromOneToThreeYears"
                                 color="primary"
                             />
                         }
-                        label="От 1 до 3 лет"
+                        label="от 1 до 3 лет"
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <FormControlLabel
                         control={
-                            <Checkbox
+                            <BlueCheckbox
                                 checked={state.fromThreeToTenYears}
                                 onChange={handleChange}
                                 name="fromThreeToTenYears"
                                 color="primary"
                             />
                         }
-                        label="От 3 до 10 лет"
+                        label="от 3 до 10 лет"
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <FormControlLabel
                         control={
-                            <Checkbox
+                            <BlueCheckbox
                                 checked={state.overTenYears}
                                 onChange={handleChange}
                                 name="overTenYears"
                                 color="primary"
                             />
                         }
-                        label="Свыше 10 лет"
+                        label="свыше 10 лет"
                     />
                 </Grid>
             </Grid>

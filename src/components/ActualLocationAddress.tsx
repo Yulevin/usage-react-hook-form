@@ -5,11 +5,11 @@ import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
 import { FormControlLabel, Grid, Typography } from '@material-ui/core';
 import { palleteEnum } from '../App';
 
-const GreenCheckbox = withStyles({
+const BlueCheckbox = withStyles({
     root: {
-        color: blue[100],
+        color: blue[900],
         '&$checked': {
-            color: blue[200],
+            color: blue[900],
         },
     },
     checked: {},
@@ -91,7 +91,7 @@ export default function ActualLocationAddress() {
                 <Grid item xs={12} sm={6}>
                     <FormControlLabel
                         control={
-                            <Checkbox
+                            <BlueCheckbox
                                 checked={state.lessThanSixMonth}
                                 onChange={handleChange}
                                 name="lessThanSixMonth"
@@ -104,7 +104,7 @@ export default function ActualLocationAddress() {
                 <Grid item xs={12} sm={6}>
                     <FormControlLabel
                         control={
-                            <Checkbox
+                            <BlueCheckbox
                                 checked={state.fromSixToOneYear}
                                 onChange={handleChange}
                                 name="fromSixToOneYear"
@@ -117,7 +117,7 @@ export default function ActualLocationAddress() {
                 <Grid item xs={12} sm={6}>
                     <FormControlLabel
                         control={
-                            <Checkbox
+                            <BlueCheckbox
                                 checked={state.fromOneToThreeYears}
                                 onChange={handleChange}
                                 name="fromOneToThreeYears"
@@ -130,7 +130,7 @@ export default function ActualLocationAddress() {
                 <Grid item xs={12} sm={6}>
                     <FormControlLabel
                         control={
-                            <Checkbox
+                            <BlueCheckbox
                                 checked={state.fromThreeToTenYears}
                                 onChange={handleChange}
                                 name="fromThreeToTenYears"
@@ -143,7 +143,7 @@ export default function ActualLocationAddress() {
                 <Grid item xs={12} sm={6}>
                     <FormControlLabel
                         control={
-                            <Checkbox
+                            <BlueCheckbox
                                 checked={state.overTenYears}
                                 onChange={handleChange}
                                 name="overTenYears"
