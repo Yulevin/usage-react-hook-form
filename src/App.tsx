@@ -1,6 +1,9 @@
 import React from "react";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
+import { SubmitHandler } from 'react-hook-form';
 import { CssBaseline, Container, Paper, Typography, Grid, Box } from "@material-ui/core";
+import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
+import { makeStyles, withStyles, createStyles, Theme } from "@material-ui/core/styles";
+import { blue } from '@material-ui/core/colors';
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 import GeneralInformation from './components/GeneralInformation';
@@ -20,15 +23,26 @@ export enum palleteEnum {
     colorComment = "rgba(255, 255, 255, 0.7)",
 };
 
+export type TInputs = {
+    name: string,
+    prevName: string,
+    birthDay: number,
+    placeOfBirth: string,
+    passport: number | string,
+    codeDepartment: number,
+    date: number,
+    issuingAuthority: string,
+};
+
 export const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         button: {
-            margin: theme.spacing(8),
+            margin: "20px 0 20px 0",
+            width: "100%",
         },
         container: {
             margin: "auto",
             width: "90%",
-            justifyContent: "center",
         },
         header: {
             backgroundColor: `${palleteEnum.colorBackgroundHeader}`,
@@ -41,8 +55,22 @@ export const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
+export const BlueCheckbox = withStyles({
+    root: {
+        color: blue[900],
+        '&$checked': {
+            color: blue[900],
+        },
+    },
+    checked: {},
+})((props: CheckboxProps) => <Checkbox color="default" {...props} />);
+
 let body = document.querySelector("body");
 if (body) body.style.backgroundColor = palleteEnum.colorGrey;
+
+export const onSubmit: SubmitHandler<TInputs> = data => {
+    alert(JSON.stringify(data));
+};
 
 export default function App() {
     const classes = useStyles();
@@ -54,7 +82,13 @@ export default function App() {
                 <Paper elevation={8} style={{ "margin": "50px 0px" }}>
                     <Grid container>
                         <Grid item xs={12}>
-                            <Typography variant="h5" style={{ "margin": "50px 0 25px 0" }} align="center">Заявление на предоставление кредита</Typography>
+                            <Typography
+                                variant="h4" 
+                                style={{ "margin": "50px 0 25px 0" }} 
+                                align="center"
+                            >
+                                Заявление на предоставление кредита
+                            </Typography>
                         </Grid>
                         <GeneralInformation />
                         <Contacts />

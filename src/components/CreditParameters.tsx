@@ -1,21 +1,10 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import { blue } from '@material-ui/core/colors';
-import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
 import { FormControlLabel, Grid, Typography } from '@material-ui/core';
-import { palleteEnum } from '../App';
-
-const BlueCheckbox = withStyles({
-    root: {
-        color: blue[900],
-        '&$checked': {
-            color: blue[900],
-        },
-    },
-    checked: {},
-})((props: CheckboxProps) => <Checkbox color="default" {...props} />);
+import { useStyles, BlueCheckbox } from '../App';
 
 export default function CreditParameters() {
+    const classes = useStyles();
+
     const [state, setState] = React.useState({
         agree: false,
         disagree: false,
@@ -25,12 +14,14 @@ export default function CreditParameters() {
         setState({ ...state, [event.target.name]: event.target.checked });
     };
     return (
-        <Grid container item style={{ "margin": "auto", "width": "90%" }}>
-            <Grid item xs={12} style={{ "backgroundColor": `${palleteEnum.colorBackgroundHeader}`, "color": `${palleteEnum.colorWhite}`, "borderRadius": "4px" }}>
-                <Typography variant="h6" align="center">ПАРАМЕТРЫ ЗАПРАШИВАЕМОГО КРЕДИТА</Typography>
+        <Grid container item className={classes.container}>
+            <Grid item xs={12} className={classes.header}>
+                <Typography variant="h6" align="center">
+                    ПАРАМЕТРЫ ЗАПРАШИВАЕМОГО КРЕДИТА
+                </Typography>
             </Grid>
             <Grid item xs={12} sm={3}>
-                <Typography>Сумма кредита</Typography>
+                <Typography paragraph>Сумма кредита</Typography>
             </Grid>
             <Grid item xs={12} sm={3}>
                 <Typography align="center">...</Typography>
@@ -42,7 +33,7 @@ export default function CreditParameters() {
                 <Typography align="center">...мес</Typography>
             </Grid>
             <Grid item xs={12} sm={9}>
-                <Typography>
+                <Typography paragraph>
                     Подписывая настоящее Заявление Клиент подтверждает согласие добровольно
                     заключить в удовлетворяющей требованиям Банка страховой компании договор
                     личного страхования, действующий на момент заключения Кредитного договора.

@@ -1,12 +1,16 @@
 import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
-import { palleteEnum } from '../App';
+import { useStyles } from '../App';
 
 export default function Contacts() {
+    const classes = useStyles();
+
     return (
-        <Grid container item style={{ "margin": "auto", "width": "90%" }}>
-            <Grid item xs={12} style={{ "backgroundColor": `${palleteEnum.colorBackgroundHeader}`, "color": `${palleteEnum.colorWhite}`, "borderRadius": "4px" }}>
-                <Typography variant="h6" align="center">КОНТАКТЫ</Typography>
+        <Grid container item className={classes.container}>
+            <Grid item xs={12} className={classes.header}>
+                <Typography variant="h6" align="center">
+                    КОНТАКТЫ
+                </Typography>
             </Grid>
             <Grid item xs={12} sm={3}>
                 <Typography>Мобильный телефон</Typography>

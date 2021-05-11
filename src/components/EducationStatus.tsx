@@ -1,21 +1,10 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import { blue } from '@material-ui/core/colors';
-import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
 import { FormControlLabel, Grid, Typography } from '@material-ui/core';
-import { palleteEnum } from '../App';
-
-const BlueCheckbox = withStyles({
-    root: {
-        color: blue[900],
-        '&$checked': {
-            color: blue[900],
-        },
-    },
-    checked: {},
-})((props: CheckboxProps) => <Checkbox color="default" {...props} />);
+import { useStyles, BlueCheckbox } from '../App';
 
 export default function EducationStatus() {
+    const classes = useStyles();
+
     const [state, setState] = React.useState({
         degree: false,
         higher: false,
@@ -36,9 +25,11 @@ export default function EducationStatus() {
     };
 
     return (
-        <Grid container item style={{ "margin": "auto", "width": "90%" }}>
-            <Grid item xs={12} style={{ "backgroundColor": `${palleteEnum.colorBackgroundHeader}`, "color": `${palleteEnum.colorWhite}`, "borderRadius": "4px" }}>
-                <Typography variant="h6" align="center">ОБРАЗОВАНИЕ И СЕМЕЙНОЕ ПОЛОЖЕНИЕ</Typography>
+        <Grid container item className={classes.container}>
+            <Grid item xs={12} className={classes.header}>
+                <Typography variant="h6" align="center">
+                    ОБРАЗОВАНИЕ И СЕМЕЙНОЕ ПОЛОЖЕНИЕ
+                </Typography>
             </Grid>
             <Grid item xs={12} sm={3}>
                 <Typography>Уровень образования</Typography>

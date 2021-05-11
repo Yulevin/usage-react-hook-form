@@ -1,21 +1,10 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import { blue } from '@material-ui/core/colors';
-import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
 import { FormControlLabel, Grid, Typography } from '@material-ui/core';
-import { palleteEnum } from '../App';
-
-const BlueCheckbox = withStyles({
-    root: {
-        color: blue[900],
-        '&$checked': {
-            color: blue[900],
-        },
-    },
-    checked: {},
-})((props: CheckboxProps) => <Checkbox color="default" {...props} />);
+import { useStyles, BlueCheckbox } from '../App';
 
 export default function ActualLocationAddress() {
+    const classes = useStyles();
+
     const [state, setState] = React.useState({
         lessThanSixMonth: false,
         fromSixToOneYear: false,
@@ -29,11 +18,13 @@ export default function ActualLocationAddress() {
     };
 
     return (
-        <Grid container item style={{ "margin": "auto", "width": "90%" }}>
-            <Grid item xs={12} style={{ "backgroundColor": `${palleteEnum.colorBackgroundHeader}`, "color": `${palleteEnum.colorWhite}`, "borderRadius": "4px" }}>
+        <Grid container item className={classes.container}>
+            <Grid item xs={12} className={classes.header}>
                 <Typography variant="h6" align="center">
                     АДРЕС ФАКТИЧЕСКОГО МЕСТОНАХОЖДЕНИЯ
-                    <Typography style={{ "color": `${palleteEnum.colorComment}` }}>заполняется, если отличается от адреса регистрации по месту жительства</Typography>
+                    <Typography className={classes.comment}>
+                        заполняется, если отличается от адреса регистрации по месту жительства
+                    </Typography>
                 </Typography>
             </Grid>
             <Grid item xs={12} sm={3}>

@@ -1,21 +1,10 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import { blue } from '@material-ui/core/colors';
-import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
 import { FormControlLabel, Grid, Typography } from '@material-ui/core';
-import { palleteEnum } from '../App';
-
-const BlueCheckbox = withStyles({
-    root: {
-        color: blue[900],
-        '&$checked': {
-            color: blue[900],
-        },
-    },
-    checked: {},
-})((props: CheckboxProps) => <Checkbox color="default" {...props} />);
+import { useStyles, BlueCheckbox } from '../App';
 
 export default function Employment() {
+    const classes = useStyles();
+
     const [state, setState] = React.useState({
         lessThanSixMonth: false,
         fromSixToOneYear: false,
@@ -29,8 +18,8 @@ export default function Employment() {
     };
 
     return (
-        <Grid container item style={{ "margin": "auto", "width": "90%" }}>
-            <Grid item xs={12} style={{ "backgroundColor": `${palleteEnum.colorBackgroundHeader}`, "color": `${palleteEnum.colorWhite}`, "borderRadius": "4px" }}>
+        <Grid container item className={classes.container}>
+            <Grid item xs={12} className={classes.header}>
                 <Typography variant="h6" align="center">
                     ЗАНЯТОСТЬ
                 </Typography>
