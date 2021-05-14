@@ -1,44 +1,31 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
-import { Typography, Grid, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, Input } from '@material-ui/core';
-import { onSubmit, TInputs, useStyles } from '../App';
+import { Typography, Grid, Radio, RadioGroup, FormControl, FormControlLabel, Input, FormLabel } from '@material-ui/core';
+import { TInputs, useStyles } from '../App';
 
 export default function GeneralInformation() {
     const classes = useStyles();
-    
-    const [value, setValue] = React.useState(null);
-    const { register, handleSubmit } = useForm<TInputs>();
 
-    const handleChange = (event: React.BaseSyntheticEvent) => {
-        setValue(event.target.value);
-    };
+    const { register } = useForm<TInputs>();
 
     return (
-        <Grid container item className={classes.container}>
+        <Grid container item spacing={1} className={classes.container}>
             <Grid item xs={12} className={classes.header}>
                 <Typography variant="h6" align="center">ОБЩАЯ ИНФОРМАЦИЯ</Typography>
             </Grid>
-            <Grid container item xs={12}>
-                <Grid item xs={12} sm={4}>
-                    <Typography>Фамилия Имя Отчество</Typography>
+            <Grid container item spacing={1} xs={12}>
+                <Grid item xs={12}>
+                    <FormLabel component='label'>Фамилия Имя Отчество</FormLabel>
+                    <Input {...register("name")} fullWidth={true} />
                 </Grid>
-                <Grid item xs={12} sm={8}>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <Input {...register("name")} fullWidth={true} />
-                    </form>
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                    <Typography>Предыдущее ФИО</Typography>
-                </Grid>
-                <Grid item xs={12} sm={8}>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <Input {...register("prevName")} fullWidth={true} placeholder="Оставить пустым если не меняли" />
-                    </form>
+                <Grid item xs={12} sm={12}>
+                    <FormLabel component='label'>Предыдущее ФИО</FormLabel>
+                    <Input {...register("prevName")} fullWidth={true} placeholder="оставить пустым если не меняли" />
                 </Grid>
                 <Grid item xs={12} sm={4}>
                     <FormControl component="fieldset">
                         <FormLabel component="legend" color="secondary">Пол</FormLabel>
-                        <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}>
+                        <RadioGroup aria-label="gender" {...register("gender")}>
                             <FormControlLabel value="Female" control={<Radio />} label="Женский" />
                             <FormControlLabel value="Male" control={<Radio />} label="Мужской" />
                         </RadioGroup>
@@ -47,26 +34,19 @@ export default function GeneralInformation() {
                 <Grid item xs={12} sm={4}>
                     <FormControl component="fieldset">
                         <FormLabel component="legend">Гражданство</FormLabel>
-                        <RadioGroup aria-label="citizenship" name="citizenship1" value={value} onChange={handleChange}>
+                        <RadioGroup aria-label="citizenship" {...register("citizenship")} >
                             <FormControlLabel value="RF" control={<Radio />} label="РФ" />
                             <FormControlLabel value="Otherwise" control={<Radio />} label="Иное" />
                         </RadioGroup>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={2}>
-                    <Typography paragraph>Дата рождения</Typography>
+                <Grid item xs={12} sm={4}>
+                    <FormLabel component='label'>Дата рождения</FormLabel>
+                    <Input {...register("birthDay")} fullWidth={true} placeholder={"дд.мм.гггг"} />
                 </Grid>
-                <Grid item xs={12} sm={2}>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <Input {...register("birthDay")} fullWidth={true} />
-                    </form>                </Grid>
-                <Grid item xs={12} sm={3}>
-                    <Typography>Место рождения</Typography>
-                </Grid>
-                <Grid item xs={12} sm={9}>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <Input {...register("placeOfBirth")} fullWidth={true} />
-                    </form>
+                <Grid item xs={12}>
+                    <FormLabel component='label'>Место рождения</FormLabel>
+                    <Input {...register("placeOfBirth")} fullWidth={true} />
                 </Grid>
                 <Grid item xs={12} sm={10}>
                     <Typography paragraph>
@@ -78,45 +58,29 @@ export default function GeneralInformation() {
                 </Grid>
                 <Grid item xs={12} sm={2}>
                     <FormControl component="fieldset">
-                        <RadioGroup aria-label="bankruptcy" name="bankruptcy1" value={value} onChange={handleChange}>
+                        <RadioGroup aria-label="bankruptcy" {...register("bankruptcy")}>
                             <FormControlLabel value="Yes" control={<Radio />} label="Да" />
                             <FormControlLabel value="No" control={<Radio />} label="Нет" />
                         </RadioGroup>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={2}>
-                    <Typography>Серия и номер паспорта</Typography>
+                <Grid item xs={12} sm={4}>
+                    <FormLabel component='label'>Серия и номер паспорта</FormLabel>
+                    <Input {...register("passport")} fullWidth={true} />
                 </Grid>
-                <Grid item xs={12} sm={2}>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <Input {...register("passport")} fullWidth={true} />
-                    </form>
-                </Grid>
-                <Grid item xs={12} sm={2}>
-                    <Typography>Код подразделения</Typography>
-                </Grid>
-                <Grid item xs={12} sm={2}>
-                        <form onSubmit={handleSubmit(onSubmit)}>
-                            <Input {...register("codeDepartment")} fullWidth={true} />
-                        </form>
-                </Grid>
-                <Grid item xs={12} sm={2}>
-                    <Typography>Дата выдачи</Typography>
-                </Grid>
-                <Grid item xs={12} sm={2}>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <Input {...register("date")} fullWidth={true} />
-                    </form>
+                <Grid item xs={12} sm={4} >
+                    <FormLabel component='label'>Код подразделения</FormLabel>
+                    <Input {...register("codeDepartment")} fullWidth={true} />
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                    <Typography>Орган, выдавший документ</Typography>
+                    <FormLabel component='label'>Дата выдачи</FormLabel>
+                    <Input {...register("date")} fullWidth={true} />
                 </Grid>
-                <Grid item xs={12} sm={8}>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <Input {...register("issuingAuthority")} fullWidth={true} />
-                    </form>
+                <Grid item xs={12}>
+                    <FormLabel component='label'>Орган, выдавший документ</FormLabel>
+                    <Input {...register("issuingAuthority")} fullWidth={true} />
                 </Grid>
             </Grid>
         </Grid>
-    )
+    );
 }

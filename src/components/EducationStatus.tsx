@@ -1,11 +1,12 @@
 import React from 'react';
-import { FormControlLabel, Grid, Typography } from '@material-ui/core';
-import { useStyles, BlueCheckbox } from '../App';
+import { useForm } from 'react-hook-form';
+import { FormControlLabel, Grid, Typography, Input,FormLabel } from '@material-ui/core';
+import { useStyles, TInputs, BlueCheckbox } from '../App';
 
 export default function EducationStatus() {
     const classes = useStyles();
-
-    const [state, setState] = React.useState({
+    const { register } = useForm<TInputs>();
+    const [checkBoxState, setCheckBoxState] = React.useState({
         degree: false,
         higher: false,
         secondHigher: false,
@@ -20,27 +21,27 @@ export default function EducationStatus() {
         other: false,
     });
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setState({ ...state, [event.target.name]: event.target.checked });
+    const checkBoxHandleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setCheckBoxState({ ...checkBoxState, [event.target.name]: event.target.checked });
     };
 
     return (
-        <Grid container item className={classes.container}>
+        <Grid container item spacing={1} className={classes.container}>
             <Grid item xs={12} className={classes.header}>
                 <Typography variant="h6" align="center">
                     ОБРАЗОВАНИЕ И СЕМЕЙНОЕ ПОЛОЖЕНИЕ
                 </Typography>
             </Grid>
-            <Grid item xs={12} sm={3}>
-                <Typography>Уровень образования</Typography>
+            <Grid item xs={12}>
+                <FormLabel component="label">Уровень образования</FormLabel>
             </Grid>
-            <Grid container item xs={12} sm={9}>
-                <Grid item xs={12} sm={6}>
+            <Grid container item xs={12}>
+                <Grid item xs={12} sm={4}>
                     <FormControlLabel
                         control={
                             <BlueCheckbox
-                                checked={state.degree}
-                                onChange={handleChange}
+                                checked={checkBoxState.degree}
+                                onChange={checkBoxHandleChange}
                                 name="degree"
                                 color="primary"
                             />
@@ -48,12 +49,12 @@ export default function EducationStatus() {
                         label="Ученая степень/MBA"
                     />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={4}>
                     <FormControlLabel
                         control={
                             <BlueCheckbox
-                                checked={state.higher}
-                                onChange={handleChange}
+                                checked={checkBoxState.higher}
+                                onChange={checkBoxHandleChange}
                                 name="higher"
                                 color="primary"
                             />
@@ -61,12 +62,12 @@ export default function EducationStatus() {
                         label="Высшее"
                     />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={4}>
                     <FormControlLabel
                         control={
                             <BlueCheckbox
-                                checked={state.secondHigher}
-                                onChange={handleChange}
+                                checked={checkBoxState.secondHigher}
+                                onChange={checkBoxHandleChange}
                                 name="secondHigher"
                                 color="primary"
                             />
@@ -74,12 +75,12 @@ export default function EducationStatus() {
                         label="Второе высшее"
                     />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={4}>
                     <FormControlLabel
                         control={
                             <BlueCheckbox
-                                checked={state.incompleteHigher}
-                                onChange={handleChange}
+                                checked={checkBoxState.incompleteHigher}
+                                onChange={checkBoxHandleChange}
                                 name="incompleteHigher"
                                 color="primary"
                             />
@@ -87,12 +88,12 @@ export default function EducationStatus() {
                         label="Неоконченное высшее"
                     />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={4}>
                     <FormControlLabel
                         control={
                             <BlueCheckbox
-                                checked={state.specializedSecondary}
-                                onChange={handleChange}
+                                checked={checkBoxState.specializedSecondary}
+                                onChange={checkBoxHandleChange}
                                 name="specializedSecondary"
                                 color="primary"
                             />
@@ -100,12 +101,12 @@ export default function EducationStatus() {
                         label="Среднее специальное"
                     />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={4}>
                     <FormControlLabel
                         control={
                             <BlueCheckbox
-                                checked={state.secondary}
-                                onChange={handleChange}
+                                checked={checkBoxState.secondary}
+                                onChange={checkBoxHandleChange}
                                 name="secondary"
                                 color="primary"
                             />
@@ -113,12 +114,12 @@ export default function EducationStatus() {
                         label="Среднее"
                     />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={4}>
                     <FormControlLabel
                         control={
                             <BlueCheckbox
-                                checked={state.lowerSecondary}
-                                onChange={handleChange}
+                                checked={checkBoxState.lowerSecondary}
+                                onChange={checkBoxHandleChange}
                                 name="lowerSecondary"
                                 color="primary"
                             />
@@ -127,16 +128,16 @@ export default function EducationStatus() {
                     />
                 </Grid>
             </Grid>
-            <Grid item xs={12} sm={3}>
-                <Typography>Семейное положение</Typography>
+            <Grid item xs={12}>
+                <FormLabel component="label">Семейное положение</FormLabel>
             </Grid>
-            <Grid container item xs={12} sm={9}>
-                <Grid item xs={12} sm={6}>
+            <Grid container item xs={12}>
+                <Grid item xs={12} sm={4}>
                     <FormControlLabel
                         control={
                             <BlueCheckbox
-                                checked={state.married}
-                                onChange={handleChange}
+                                checked={checkBoxState.married}
+                                onChange={checkBoxHandleChange}
                                 name="married"
                                 color="primary"
                             />
@@ -144,12 +145,12 @@ export default function EducationStatus() {
                         label="Женат/Замужем"
                     />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={4}>
                     <FormControlLabel
                         control={
                             <BlueCheckbox
-                                checked={state.single}
-                                onChange={handleChange}
+                                checked={checkBoxState.single}
+                                onChange={checkBoxHandleChange}
                                 name="single"
                                 color="primary"
                             />
@@ -157,12 +158,12 @@ export default function EducationStatus() {
                         label="Холост/Не замужем"
                     />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={4}>
                     <FormControlLabel
                         control={
                             <BlueCheckbox
-                                checked={state.divorced}
-                                onChange={handleChange}
+                                checked={checkBoxState.divorced}
+                                onChange={checkBoxHandleChange}
                                 name="divorced"
                                 color="primary"
                             />
@@ -170,12 +171,12 @@ export default function EducationStatus() {
                         label="В разводе"
                     />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={4}>
                     <FormControlLabel
                         control={
                             <BlueCheckbox
-                                checked={state.civilMarriage}
-                                onChange={handleChange}
+                                checked={checkBoxState.civilMarriage}
+                                onChange={checkBoxHandleChange}
                                 name="civilMarriage"
                                 color="primary"
                             />
@@ -183,12 +184,12 @@ export default function EducationStatus() {
                         label="Гражданский брак"
                     />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={4}>
                     <FormControlLabel
                         control={
                             <BlueCheckbox
-                                checked={state.other}
-                                onChange={handleChange}
+                                checked={checkBoxState.other}
+                                onChange={checkBoxHandleChange}
                                 name="other"
                                 color="primary"
                             />
@@ -197,11 +198,11 @@ export default function EducationStatus() {
                     />
                 </Grid>
             </Grid>
-            <Grid item xs={12} sm={8}>
-                <Typography>Сколько иждивенцев находится на вашем содержании?</Typography>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-                <Typography align="center">...</Typography>
+            <Grid item xs={12}>
+                <FormLabel component="label">
+                    Сколько иждивенцев находится на вашем содержании?
+                </FormLabel>
+                <Input {...register("dependent")} fullWidth={true}/>
             </Grid>
         </Grid>
     )

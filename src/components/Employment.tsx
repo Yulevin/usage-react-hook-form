@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormControlLabel, Grid, Typography } from '@material-ui/core';
+import { FormControlLabel, Grid, Typography, FormLabel } from '@material-ui/core';
 import { useStyles, BlueCheckbox } from '../App';
 
 export default function Employment() {
@@ -7,7 +7,7 @@ export default function Employment() {
 
     const [state, setState] = React.useState({
         lessThanSixMonth: false,
-        fromSixToOneYear: false,
+        fromSixMonthToOneYear: false,
         fromOneToThreeYears: false,
         fromThreeToTenYears: false,
         overTenYears: false,
@@ -18,14 +18,14 @@ export default function Employment() {
     };
 
     return (
-        <Grid container item className={classes.container}>
+        <Grid container item spacing={1} className={classes.container}>
             <Grid item xs={12} className={classes.header}>
                 <Typography variant="h6" align="center">
                     ЗАНЯТОСТЬ
                 </Typography>
             </Grid>
             <Grid item xs={12} sm={3}>
-                <Typography>Общий трудовой стаж</Typography>
+                <FormLabel component="label">Общий трудовой стаж</FormLabel>
             </Grid>
             <Grid container item xs={12} sm={9}>
                 <Grid item xs={12} sm={6}>
@@ -45,13 +45,13 @@ export default function Employment() {
                     <FormControlLabel
                         control={
                             <BlueCheckbox
-                                checked={state.fromSixToOneYear}
+                                checked={state.fromSixMonthToOneYear}
                                 onChange={handleChange}
-                                name="fromSixToOneYear"
+                                name="fromSixMonthToOneYear"
                                 color="primary"
                             />
                         }
-                        label="от 6 до 1 года"
+                        label="от 6 месяцев до 1 года"
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>

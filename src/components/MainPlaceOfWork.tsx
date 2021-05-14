@@ -43,7 +43,7 @@ export default function MainPlaceOfWork() {
     };
 
     return (
-        <Grid container item className={classes.container}>
+        <Grid container item spacing={1} className={classes.container}>
             <Grid item xs={12} className={classes.header}>
                 <Typography variant="h6" align="center">
                     ОСНОВНОЕ МЕСТО РАБОТЫ

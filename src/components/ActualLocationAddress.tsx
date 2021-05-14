@@ -1,11 +1,12 @@
 import React from 'react';
-import { FormControlLabel, Grid, Typography } from '@material-ui/core';
-import { useStyles, BlueCheckbox } from '../App';
+import { useForm } from 'react-hook-form';
+import { FormControlLabel, Grid, Typography, FormLabel, Input } from '@material-ui/core';
+import { useStyles, BlueCheckbox, TInputs } from '../App';
 
 export default function ActualLocationAddress() {
     const classes = useStyles();
-
-    const [state, setState] = React.useState({
+    const { register } = useForm<TInputs>();
+    const [checkBoxState, setCheckBoxState] = React.useState({
         lessThanSixMonth: false,
         fromSixToOneYear: false,
         fromOneToThreeYears: false,
@@ -13,12 +14,12 @@ export default function ActualLocationAddress() {
         overTenYears: false,
     });
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setState({ ...state, [event.target.name]: event.target.checked });
+    const checkBoxHandleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setCheckBoxState({ ...checkBoxState, [event.target.name]: event.target.checked });
     };
 
     return (
-        <Grid container item className={classes.container}>
+        <Grid container item spacing={1} className={classes.container}>
             <Grid item xs={12} className={classes.header}>
                 <Typography variant="h6" align="center">
                     АДРЕС ФАКТИЧЕСКОГО МЕСТОНАХОЖДЕНИЯ
@@ -27,64 +28,44 @@ export default function ActualLocationAddress() {
                     </Typography>
                 </Typography>
             </Grid>
-            <Grid item xs={12} sm={3}>
-                <Typography>Почтовый индекс</Typography>
+            <Grid item xs={12} sm={6}>
+                <FormLabel component="label">Почтовый индекс</FormLabel>
+                <Input {...register("actualPostcode")} fullWidth={true} />
             </Grid>
-            <Grid item xs={12} sm={3}>
-                <Typography align="center">...</Typography>
+            <Grid item xs={12} sm={6}>
+                <FormLabel component="label">Область</FormLabel>
+                <Input {...register("actualRegion")} fullWidth={true} />
             </Grid>
-            <Grid item xs={12} sm={3}>
-                <Typography>Область</Typography>
+            <Grid item xs={12}>
+                <FormLabel component="label">Город</FormLabel>
+                <Input {...register("actualCity")} fullWidth={true} />
             </Grid>
-            <Grid item xs={12} sm={3}>
-                <Typography align="center">...</Typography>
+            <Grid item xs={12}>
+                <FormLabel component="label">Улица</FormLabel>
+                <Input {...register("actualStreet")} fullWidth={true} />
             </Grid>
-            <Grid item xs={12} sm={2}>
-                <Typography>Город</Typography>
+            <Grid item xs={12} sm={4}>
+                <FormLabel component="label">Дом</FormLabel>
+                <Input {...register("actualHouseNumber")} fullWidth={true} />
             </Grid>
-            <Grid item xs={12} sm={10}>
-                <Typography align="center">...</Typography>
+            <Grid item xs={12} sm={4}>
+                <FormLabel component="label">Корпус/Строение</FormLabel>
+                <Input {...register("actualHouseBuilding")} fullWidth={true} />
             </Grid>
-            <Grid item xs={12} sm={2}>
-                <Typography>Улица</Typography>
+            <Grid item xs={12} sm={4}>
+                <FormLabel component="label">Квартира</FormLabel>
+                <Input {...register("actualApartmentNumber")} fullWidth={true} />
             </Grid>
-            <Grid item xs={12} sm={10}>
-                <Typography align="center">...</Typography>
+            <Grid item xs={12}>
+                <FormLabel>Срок проживания в регионе</FormLabel>
             </Grid>
-            <Grid item xs={12} sm={1}>
-                <Typography>Дом</Typography>
-            </Grid>
-            <Grid item xs={12} sm={1}>
-                <Typography align="center">...</Typography>
-            </Grid>
-            <Grid item xs={12} sm={3}>
-                <Typography>Корпус/Строение</Typography>
-            </Grid>
-            <Grid item xs={12} sm={3}>
-                <Typography align="center">...</Typography>
-            </Grid>
-            <Grid item xs={12} sm={2}>
-                <Typography>Квартира</Typography>
-            </Grid>
-            <Grid item xs={12} sm={2}>
-                <Typography align="center">...</Typography>
-            </Grid>
-            <Grid item xs={12} sm={2}>
-                <Typography>Квартира</Typography>
-            </Grid>
-            <Grid item xs={12} sm={10}>
-                <Typography align="center">...</Typography>
-            </Grid>
-            <Grid item xs={12} sm={3}>
-                <Typography>Срок проживания в регионе</Typography>
-            </Grid>
-            <Grid container item xs={12} sm={9}>
-                <Grid item xs={12} sm={6}>
+            <Grid container item xs={12}>
+                <Grid item xs={12} sm={4}>
                     <FormControlLabel
                         control={
                             <BlueCheckbox
-                                checked={state.lessThanSixMonth}
-                                onChange={handleChange}
+                                checked={checkBoxState.lessThanSixMonth}
+                                onChange={checkBoxHandleChange}
                                 name="lessThanSixMonth"
                                 color="primary"
                             />
@@ -92,12 +73,12 @@ export default function ActualLocationAddress() {
                         label="Менее 6 месяцев"
                     />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={4}>
                     <FormControlLabel
                         control={
                             <BlueCheckbox
-                                checked={state.fromSixToOneYear}
-                                onChange={handleChange}
+                                checked={checkBoxState.fromSixToOneYear}
+                                onChange={checkBoxHandleChange}
                                 name="fromSixToOneYear"
                                 color="primary"
                             />
@@ -105,12 +86,12 @@ export default function ActualLocationAddress() {
                         label="От 6 до 1 года"
                     />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={4}>
                     <FormControlLabel
                         control={
                             <BlueCheckbox
-                                checked={state.fromOneToThreeYears}
-                                onChange={handleChange}
+                                checked={checkBoxState.fromOneToThreeYears}
+                                onChange={checkBoxHandleChange}
                                 name="fromOneToThreeYears"
                                 color="primary"
                             />
@@ -118,12 +99,12 @@ export default function ActualLocationAddress() {
                         label="От 1 до 3 лет"
                     />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={4}>
                     <FormControlLabel
                         control={
                             <BlueCheckbox
-                                checked={state.fromThreeToTenYears}
-                                onChange={handleChange}
+                                checked={checkBoxState.fromThreeToTenYears}
+                                onChange={checkBoxHandleChange}
                                 name="fromThreeToTenYears"
                                 color="primary"
                             />
@@ -131,12 +112,12 @@ export default function ActualLocationAddress() {
                         label="От 3 до 10 лет"
                     />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={4}>
                     <FormControlLabel
                         control={
                             <BlueCheckbox
-                                checked={state.overTenYears}
-                                onChange={handleChange}
+                                checked={checkBoxState.overTenYears}
+                                onChange={checkBoxHandleChange}
                                 name="overTenYears"
                                 color="primary"
                             />
