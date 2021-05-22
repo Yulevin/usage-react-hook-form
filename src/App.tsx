@@ -1,155 +1,83 @@
-import React from "react";
-import { useForm } from 'react-hook-form';
-import { CssBaseline, Container, Paper, Typography, Grid, Box, Button, Icon } from "@material-ui/core";
-import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
-import { makeStyles, withStyles, createStyles, Theme } from "@material-ui/core/styles";
-import { blue } from '@material-ui/core/colors';
-import GeneralInformation from './components/GeneralInformation';
-import Contacts from './components/Contacts';
-import RegistrationAddress from './components/RegistrationAddress';
-import ActualLocationAddress from "./components/ActualLocationAddress";
-import EducationStatus from "./components/EducationStatus";
-import Employment from "./components/Employment";
-import MainPlaceOfWork from "./components/MainPlaceOfWork";
-import MonthlyIncome from "./components/MonthlyIncome";
-import CreditParameters from "./components/CreditParameters";
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Container, Paper, Typography, Grid } from '@material-ui/core';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { GeneralInformation } from './components/appComponents/GeneralInformation';
+import { Contacts } from './components/appComponents/Contacts';
+import { RegistrationAddress } from './components/appComponents/RegistrationAddress';
+import { ActualLocationAddress } from './components/appComponents/ActualLocationAddress';
+import { EducationStatus } from './components/appComponents/EducationStatus';
+import { Employment } from './components/appComponents/Employment';
+import { MainPlaceOfWork } from './components/appComponents/MainPlaceOfWork';
+import { MonthlyIncome } from './components/appComponents/MonthlyIncome';
+import { CreditParameters } from './components/appComponents/CreditParameters';
+import { TotalPage } from './components/appComponents/TotalPage';
 
 export enum palleteEnum {
-    colorGrey = "rgb(82, 86, 89)",
-    colorWhite = "rgb(255, 255, 255)",
-    colorBackgroundHeader = "rgb(36, 64, 94)",
-    colorComment = "rgba(255, 255, 255, 0.7)",
+    colorGrey = 'rgb(82, 86, 89)',
+    colorWhite = 'rgb(255, 255, 255)',
+    colorBackgroundHeader = 'rgb(36, 64, 94)',
+    colorComment = 'rgba(255, 255, 255, 0.7)',
+    colorWrapper = 'rgba(82, 86, 89, .1)',
 };
 
-export type TInputs = {
-    // General Information Types
-    name: string,
-    prevName: string,
-    citizenship: string,
-    gender: string,
-    bankruptcy: string,
-    birthDay: number,
-    placeOfBirth: string,
-    passport: string,
-    codeDepartment: number,
-    date: number,
-    issuingAuthority: string,
-    
-    // Contacts Types
-    phone: number,
-    additionalPhone: number,
-    email: string,
-
-    // Registration Address Types
-    postcode: number,
-    region: string,
-    city: string,
-    street: string,
-    houseNumber: number | string,
-    houseBuilding: number | string,
-    apartmentNumber: number,
-
-    // Actual Location Address Types
-    actualPostcode: number,
-    actualRegion: string,
-    actualCity: string,
-    actualStreet: string,
-    actualHouseNumber: number | string,
-    actualHouseBuilding: number | string,
-    actualApartmentNumber: number,
-
-    // Education Status Types
-    dependent: number,
-    
-    // 
-};
-
-export const useStyles = makeStyles((theme: Theme) =>
+export const useStyles = makeStyles(() =>
     createStyles({
-        button: {
-            margin: "20px 0 20px 0",
-            width: "100%",
-        },
         container: {
-            margin: "auto",
-            width: "90%",
+            margin: 'auto',
+            width: '90%',
         },
         header: {
             backgroundColor: `${palleteEnum.colorBackgroundHeader}`,
             color: `${palleteEnum.colorWhite}`,
-            borderRadius: "4px",
+            borderRadius: '4px',
         },
         comment: {
             color: `${palleteEnum.colorComment}`,
         },
+        error: {
+            color: 'maroon',
+            fontWeight: 'bold',
+        },
     }),
 );
 
-export const BlueCheckbox = withStyles({
-    root: {
-        color: blue[900],
-        '&$checked': {
-            color: blue[900],
-        },
-    },
-    checked: {},
-})((props: CheckboxProps) => <Checkbox color="default" {...props} />);
-
-let body = document.querySelector("body");
+let body = document.querySelector('body');
 if (body) body.style.backgroundColor = palleteEnum.colorGrey;
 
-const onSubmit = (data: any) => {
-    console.log(data);
-};
-
 export default function App() {
-    const classes = useStyles();
-
-    const { handleSubmit } = useForm<TInputs>();
-
     return (
-        <>
-            <CssBaseline />
-            <Container maxWidth="md">
-                <Paper elevation={8} style={{ "margin": "50px 0px" }}>
-                    <Grid container>
-                        <form onSubmit={handleSubmit(onSubmit)}>
-                            <Grid item xs={12}>
-                                <Typography
-                                    variant="h4"
-                                    style={{ "margin": "50px 0 25px 0" }}
-                                    align="center"
-                                >
-                                    Заявление на предоставление кредита
-                            </Typography>
-                            </Grid>
-                            <GeneralInformation />
-                            <Contacts />
-                            <RegistrationAddress />
-                            <ActualLocationAddress />
-                            <EducationStatus />
-                            <Employment />
-                            <MainPlaceOfWork />
-                            <MonthlyIncome />
-                            <CreditParameters />
-                            <Grid item xs={12} sm={12}>
-                                <Box className={classes.container}>
-                                    <Button
-                                        type="submit"
-                                        variant="contained"
-                                        color="primary"
-                                        className={classes.button}
-                                        endIcon={<Icon>send</Icon>}
-                                        size="large"
-                                    >
-                                        ОТПРАВИТЬ
-                                </Button>
-                                </Box>
-                            </Grid>
-                        </form>
+        <Container maxWidth='md'>
+            <Paper elevation={8} style={{ margin: '50px 0px' }}>
+                <Grid container>
+                    <Grid item xs={12}>
+                        <Typography
+                            component='h1'
+                            variant='h4'
+                            style={{ margin: '50px 0 25px 0' }}
+                            align='center'
+                        >
+                            Credit Application Form
+                        </Typography>
                     </Grid>
-                </Paper>
-            </Container>
-        </>
+                    <Grid container item component='main' xs={12}>
+                        <Router>
+                            <Switch>
+                                <Route exact path='/' component={GeneralInformation} />
+                                <Route path='/Contacts' component={Contacts} />
+                                <Route path='/RegistrationAddress' component={RegistrationAddress} />
+                                <Route path='/ActualLocationAddress' component={ActualLocationAddress} />
+                                <Route path='/EducationStatus' component={EducationStatus} />
+                                <Route path='/Employment' component={Employment} />
+                                <Route path='/MainPlaceOfWork' component={MainPlaceOfWork} />
+                                <Route path='/MonthlyIncome' component={MonthlyIncome} />
+                                <Route path='/CreditParameters' component={CreditParameters} />
+                                <Route path='/TotalPage' component={TotalPage} />
+                            </Switch>
+                        </Router>
+                    </Grid>
+                </Grid>
+            </Paper>
+        </Container>
     );
 }
