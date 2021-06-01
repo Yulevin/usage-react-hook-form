@@ -5,7 +5,6 @@ import { makeStyles } from '@material-ui/core/styles';
 type TChildrenProps = {
     children: React.ReactNode,
     props?: React.ReactPropTypes,
-    // onClick: (event: React.BaseSyntheticEvent) => void,
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -14,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export const NextButton = ({ children, props }: TChildrenProps) => {
+export const CustomButton = ({ children, props }: TChildrenProps) => {
     const classes = useStyles();
 
     return (

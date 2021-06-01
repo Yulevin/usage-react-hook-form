@@ -1,47 +1,73 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { Grid, Typography, FormLabel } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+import { Grid, Typography, FormLabel, FormControl, RadioGroup } from '@material-ui/core';
 import { Form } from '../customComponents/Form';
 import { Input } from '../customComponents/Input';
-import { BlueCheckBox } from '../customComponents/BlueCheckBox';
+import { RadioButton } from '../customComponents/RadioButton';
+import { CustomButton as NextButton } from '../customComponents/CustomButton';
 import { useStyles } from '../../App';
-import { NextButton } from '../customComponents/NextButton';
-
-type TInputs = {
-    actualPostcode: string,
-    actualRegion: string,
-    actualCity: string,
-    actualStreet: string,
-    actualHouseNumber: string,
-    actualHouseBuilding: string,
-    actualApartmentNumber: string,
-};
+import { TActualLocationAddressInputs } from '../../types';
+import { setActualLocationAddressActionCreator } from '../../redux';
 
 export const ActualLocationAddress = (): JSX.Element => {
     const classes = useStyles();
     const history = useHistory();
+    const dispatch = useDispatch();
 
-    const { register, handleSubmit } = useForm<TInputs>();
-
-    const [checkBoxState, setCheckBoxState] = useState({
-        lessThanSixMonth: false,
-        fromSixToOneYear: false,
-        fromOneToThreeYears: false,
-        fromThreeToTenYears: false,
-        overTenYears: false,
+    const { register, handleSubmit } = useForm<TActualLocationAddressInputs>({
+        mode: 'onBlur',
     });
 
-    const checkBoxHandleChange = (event: React.BaseSyntheticEvent): void => {
-        setCheckBoxState({ ...checkBoxState, [event.target.name]: event.target.checked });
-        return;
-    }
+    const actualLocationId = { id: 'actualLocationAddress' };
 
-    const onSubmit = (data: {}): void => {
-        console.log('Actual Location Address: ', data, { ...checkBoxState });
+    const onSubmit = (inputsState: TActualLocationAddressInputs): void => {
+        dispatch(setActualLocationAddressActionCreator({
+            ...actualLocationId,
+            ...inputsState,
+        }));
         history.push('/EducationStatus');
         return;
     }
+
+    const livingTimeRegionContent = [
+        {
+            index: 0,
+            name: 'livingTimeRegion',
+            id: 'lessThanSixMonth',
+            value: 'Less than 6 months',
+            label: 'Less than 6 months',
+        },
+        {
+            index: 1,
+            name: 'livingTimeRegion',
+            id: 'fromSixToOneYear',
+            value: 'From 6 months to 1 year',
+            label: 'From 6 months to 1 year',
+        },
+        {
+            index: 2,
+            name: 'livingTimeRegion',
+            id: 'fromOneToThreeYears',
+            value: 'From 1 to 3 years',
+            label: 'From 1 to 3 years',
+        },
+        {
+            index: 3,
+            name: 'livingTimeRegion',
+            id: 'fromThreeToTenYears',
+            value: 'From 3 to 10 years',
+            label: 'From 3 to 10 years',
+        },
+        {
+            index: 4,
+            name: 'livingTimeRegion',
+            id: 'overTenYears',
+            value: 'Over 10 years',
+            label: 'Over 10 years',
+        },
+    ];
 
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
@@ -56,125 +82,95 @@ export const ActualLocationAddress = (): JSX.Element => {
                         align='center'
                         className={classes.comment}
                     >
-                        fill if you live in a different address
+                        to fill, if you live in a different address
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                    <Input
-                        {...register('actualPostcode')}
-                        id='actualPostcode'
-                        type='text'
-                        name='actualPostcode'
-                        label='Actual Postcode'
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <Input
-                        {...register('actualRegion')}
-                        id='actualRegion'
-                        type='text'
-                        name='actualRegion'
-                        label='Actual Region'
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <Input
-                        {...register('actualCity')}
-                        id='actualCity'
-                        type='text'
-                        name='actualCity'
-                        label='Actual City'
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <Input
-                        {...register('actualStreet')}
-                        id='actualStreet'
-                        type='text'
-                        name='actualStreet'
-                        label='Actual Street'
-                    />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                    <Input
-                        {...register('actualHouseNumber')}
-                        id='actualHouseNumber'
-                        type='text'
-                        name='actualHouseNumber'
-                        label='Actual House Number'
-                    />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                    <Input
-                        {...register('actualHouseBuilding')}
-                        id='actualHouseBuilding'
-                        type='text'
-                        name='actualHouseBuilding'
-                        label='Actual House Building'
-                    />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                    <Input
-                        {...register('actualApartmentNumber')}
-                        id='actualApartmentNumber'
-                        type='text'
-                        name='actualApartmentNumber'
-                        label='Actual Apartment Number'
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <FormLabel component='label'>Living Time in the Region</FormLabel>
-                </Grid>
-                <Grid container item xs={12}>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='lessThanSixMonth'
-                            name='lessThanSixMonth'
-                            checked={checkBoxState.lessThanSixMonth}
-                            onChange={checkBoxHandleChange}
-                            color='primary'
-                            label='Less Than Six Month'
+                <Grid container item spacing={1} xs={12} id='actualLocationContent'>
+                    <Grid item xs={12} sm={6}>
+                        <Input
+                            {...register('actualPostcode')}
+                            id='actualPostcode'
+                            type='text'
+                            name='actualPostcode'
+                            label='Actual Postcode'
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <Input
+                            {...register('actualRegion')}
+                            id='actualRegion'
+                            type='text'
+                            name='actualRegion'
+                            label='Actual Region'
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Input
+                            {...register('actualCity')}
+                            id='actualCity'
+                            type='text'
+                            name='actualCity'
+                            label='Actual City'
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Input
+                            {...register('actualStreet')}
+                            id='actualStreet'
+                            type='text'
+                            name='actualStreet'
+                            label='Actual Street'
                         />
                     </Grid>
                     <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='fromSixToOneYear'
-                            name='fromSixToOneYear'
-                            checked={checkBoxState.fromSixToOneYear}
-                            onChange={checkBoxHandleChange}
-                            color='primary'
-                            label='From Six to One Year'
+                        <Input
+                            {...register('actualHouseNumber')}
+                            id='actualHouseNumber'
+                            type='text'
+                            name='actualHouseNumber'
+                            label='Actual House Number'
                         />
                     </Grid>
                     <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='fromOneToThreeYears'
-                            name='fromOneToThreeYears'
-                            checked={checkBoxState.fromOneToThreeYears}
-                            onChange={checkBoxHandleChange}
-                            color='primary'
-                            label='From One to Three Years'
+                        <Input
+                            {...register('actualHouseBuilding')}
+                            id='actualHouseBuilding'
+                            type='text'
+                            name='actualHouseBuilding'
+                            label='Actual House Building'
                         />
                     </Grid>
                     <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='fromThreeToTenYears'
-                            name='fromThreeToTenYears'
-                            checked={checkBoxState.fromThreeToTenYears}
-                            onChange={checkBoxHandleChange}
-                            color='primary'
-                            label='From Three to Ten Years'
+                        <Input
+                            {...register('actualApartmentNumber')}
+                            id='actualApartmentNumber'
+                            type='text'
+                            name='actualApartmentNumber'
+                            label='Actual Apartment Number'
                         />
                     </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='overTenYears'
-                            name='overTenYears'
-                            checked={checkBoxState.overTenYears}
-                            onChange={checkBoxHandleChange}
-                            color='primary'
-                            label='Over Ten Years'
-                        />
+                </Grid>
+                <Grid container item xs={12} id='livingTimeRegionContainer'>
+                    <Grid item xs={12} id='livingTimeRegionTitle'>
+                        <FormLabel component='legend' color='secondary'>
+                            Living Time in the Region
+                        </FormLabel>
+                    </Grid>
+                    <Grid item xs={12} id='livingTimeRegionContent'>
+                        <FormControl component='fieldset'>
+                            <RadioGroup row {...register('livingTimeRegion')}>
+                                {livingTimeRegionContent.map(({ id, name, value, label, index }) => (
+                                    <Grid item xs={12} sm={4} key={index}>
+                                        <RadioButton
+                                            id={id}
+                                            name={name}
+                                            value={value}
+                                            label={label}
+                                        />
+                                    </Grid>
+                                ))}
+                            </RadioGroup>
+                        </FormControl>
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>

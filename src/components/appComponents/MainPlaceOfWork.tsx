@@ -1,71 +1,79 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Grid, Typography, FormLabel } from '@material-ui/core';
-import { Input } from '../customComponents/Input';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Grid, Box, Typography, FormLabel, FormControl, RadioGroup } from '@material-ui/core';
 import { Form } from '../customComponents/Form';
-import { BlueCheckBox } from '../customComponents/BlueCheckBox';
+import { Input } from '../customComponents/Input';
+import { RadioButton } from '../customComponents/RadioButton';
+import { CustomButton as NextButton } from '../customComponents/CustomButton';
 import { useStyles } from '../../App';
-import { NextButton } from '../customComponents/NextButton';
+import { TMainPlaceOfWorkInputs } from '../../types';
+import { setMainPlaceOfWorkActionCreator } from '../../redux';
 
-type TInputs = {
-    organizationName: string,
-    taxNumber: string,
-    webSite: string,
-    workPhone: string,
-    workAdress: string,
-    chief: string,
-};
-
-export const MainPlaceOfWork = () => {
+export const MainPlaceOfWork = (): JSX.Element => {
     const classes = useStyles();
     const history = useHistory();
+    const dispatch = useDispatch();
 
-    const { register, handleSubmit, formState: { errors } } = useForm<TInputs>();
-    const [checkBoxState, setCheckBoxState] = useState({
-        privateEnterprise: false,
-        state: false,
-        individual: false,
-        production: false,
-        trade: false,
-        services: false,
-        IT: false,
-        culture: false,
-        militaryForces: false,
-        transport: false,
-        building: false,
-        agriculture: false,
-        education: false,
-        medecine: false,
-        science: false,
-        lawEnforcement: false,
-        privateSecurity: false,
-        jurisprudence: false,
-        finance: false,
-        other: false,
-        organizationLeadership: false,
-        departmentManagement: false,
-        selfEmployed: false,
-        specialist: false,
-        lessThanFourMonth: false,
-        fromFourToSixMonth: false,
-        fromSixToOneYear: false,
-        fromOneToThreeYear: false,
-        fromThreeToTenYear: false,
-        overTenYears: false,
+    const { register, handleSubmit, formState: { errors } } = useForm<TMainPlaceOfWorkInputs>({
+        mode: 'onBlur',
     });
 
-    const handleChange = (event: React.BaseSyntheticEvent) => {
-        setCheckBoxState({ ...checkBoxState, [event.target.name]: event.target.checked });
-        return;
-    };
+    const mainPlaceOfWorkId = { id: 'mainPlaceOfWork' };
 
-    const onSubmit = (data: {}) => {
-        console.log('Main Place of Work: ', data, { ...checkBoxState });
+    const onSubmit = (inputsState: TMainPlaceOfWorkInputs): void => {
+        dispatch(setMainPlaceOfWorkActionCreator({
+            ...mainPlaceOfWorkId,
+            ...inputsState,
+        }));
         history.push('/MonthlyIncome');
         return;
-    };
+    }
 
+    const typeOwnershipContent = [
+        { index: '0', name: 'typeOwnership', id: 'privateEnterprise', value: 'Private Enterprise', label: 'Private Enterprise' },
+        { index: '1', name: 'typeOwnership', id: 'state', value: 'State', label: 'State' },
+        { index: '2', name: 'typeOwnership', id: 'individual', value: 'Individual', label: 'Individual' },
+    ];
+
+    const typeOfActivitiesContent = [
+        { index: 0, name: 'typeActivities', id: 'production', value: 'Production', label: 'Production' },
+        { index: 1, name: 'typeActivities', id: 'trade', value: 'Trade', label: 'Trade' },
+        { index: 2, name: 'typeActivities', id: 'services', value: 'Services', label: 'Services' },
+        { index: 3, name: 'typeActivities', id: 'it', value: 'IT', label: 'IT' },
+        { index: 4, name: 'typeActivities', id: 'culture', value: 'Culture', label: 'Culture' },
+        { index: 5, name: 'typeActivities', id: 'militaryForces', value: 'Military Forces', label: 'Military Forces' },
+        { index: 6, name: 'typeActivities', id: 'transport', value: 'Transport', label: 'Transport' },
+        { index: 7, name: 'typeActivities', id: 'building', value: 'Building', label: 'Building' },
+        { index: 8, name: 'typeActivities', id: 'agriculture', value: 'Agriculture', label: 'Agriculture' },
+        { index: 9, name: 'typeActivities', id: 'education', value: 'Education', label: 'Education' },
+        { index: 10, name: 'typeActivities', id: 'medecine', value: 'Medecine', label: 'Medecine' },
+        { index: 11, name: 'typeActivities', id: 'science', value: 'Science', label: 'Science' },
+        { index: 12, name: 'typeActivities', id: 'lawEnforcement', value: 'Law Enforcement', label: 'Law Enforcement' },
+        { index: 13, name: 'typeActivities', id: 'privateSecurity', value: 'Private Security', label: 'Private Security' },
+        { index: 14, name: 'typeActivities', id: 'jurisprudence', value: 'Jurisprudence', label: 'Jurisprudence' },
+        { index: 15, name: 'typeActivities', id: 'finance', value: 'Finance', label: 'Finance' },
+        { index: 16, name: 'typeActivities', id: 'other', value: 'Other', label: 'Other' },
+    ];
+
+    const typePositionHeldContent = [
+        { index: 0, name: 'typePositionHeld', id: 'organizationLeadership', value: 'Organization Leadership', label: 'Organization Leadership' },
+        { index: 1, name: 'typePositionHeld', id: 'departmentManagement', value: 'Department Management', label: 'Department Management' },
+        { index: 2, name: 'typePositionHeld', id: 'selfEmployed', value: 'Self Employed', label: 'Self Employed' },
+        { index: 3, name: 'typePositionHeld', id: 'specialist', value: 'Specialist', label: 'Specialist' },
+    ];
+
+    const workExperiencePositionHeldContent = [
+        { index: 0, name: 'workExperiencePositionHeld', id: 'lessThanFourMonth', value: 'Less than 4 months', label: 'Less than 4 months' },
+        { index: 1, name: 'workExperiencePositionHeld', id: 'fromFourToSixMonth', value: 'From 4 to 6 months', label: 'From 4 to 6 months' },
+        { index: 2, name: 'workExperiencePositionHeld', id: 'fromSixToOneYear', value: 'From 6 months to one year', label: 'From 6 months to 1 year' },
+        { index: 3, name: 'workExperiencePositionHeld', id: 'fromOneToThreeYears', value: 'From 1 to 3 years', label: 'From 1 to 3 years' },
+        { index: 4, name: 'workExperiencePositionHeld', id: 'fromThreeToTenYears', value: 'From 3 to 10 years', label: 'From 3 to 10 years' },
+        { index: 5, name: 'workExperiencePositionHeld', id: 'overTenYears', value: 'Over 10 years', label: 'Over 10 years' },
+    ];
+
+    // TODO: Complete the required patterns
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
             <Grid container item spacing={1} className={classes.container}>
@@ -74,410 +82,219 @@ export const MainPlaceOfWork = () => {
                         Main Place of Work
                     </Typography>
                 </Grid>
-                <Grid item xs={12}>
-                    <Input
-                        {...register('organizationName', {
-                            required: 'This field is required'
-                        })}
-                        id='organizationName'
-                        type='text'
-                        name='organizationName'
-                        label='Name of Organization*'
-                    />
-                    {
-                        errors.organizationName &&
-                        <span className={classes.error}>
-                            {errors.organizationName.message}
-                        </span>
-                    }
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <Input
-                        {...register('taxNumber', {
-                            required: 'This field is required',
-                        })}
-                        id='taxNumber'
-                        type='text'
-                        name='taxNumber'
-                        label='Tax Number*'
-                    />
-                    {
-                        errors.taxNumber &&
-                        <span className={classes.error}>
-                            {errors.taxNumber.message}
-                        </span>
-                    }
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <Input
-                        {...register('webSite')}
-                        id='webSite'
-                        type='text'
-                        name='webSite'
-                        label='Web Site'
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <Input
-                        {...register('workPhone', {
-                            required: 'This field is required'
-                        })}
-                        id='workPhone'
-                        type='text'
-                        name='workPhone'
-                        label='Work Phone*'
-                    />
-                    {
-                        errors.workPhone &&
-                        <span className={classes.error}>
-                            {errors.workPhone.message}
-                        </span>
-                    }
-                </Grid>
-                <Grid item xs={12}>
-                    <Input
-                        {...register('workAdress', {
-                            required: 'This field is required'
-                        })}
-                        id='workAdress'
-                        type='text'
-                        name='workAdress'
-                        label='Work Address*'
-                    />
-                    {
-                        errors.workAdress &&
-                        <span className={classes.error}>
-                            {errors.workAdress.message}
-                        </span>
-                    }
-                </Grid>
-                <Grid item xs={12}>
-                    <Input
-                        {...register('chief')}
-                        id='chief'
-                        type='text'
-                        name='chief'
-                        label='Name of the Chief Executive'
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <FormLabel component='label'>Type of Ownership</FormLabel>
-                </Grid>
-                <Grid container spacing={1} item xs={12}>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='privateEnterprise'
-                            label='Private Enterprise'
-                            checked={checkBoxState.privateEnterprise}
-                            onChange={handleChange}
-                            name='privateEnterprise'
-                            color='primary'
+                <Grid container item spacing={1} xs={12} id='mainPlaceOfWorkContent'>
+                    <Grid item xs={12}>
+                        <Input
+                            {...register('organizationName', {
+                                required: 'This field is required'
+                            })}
+                            id='organizationName'
+                            type='text'
+                            name='organizationName'
+                            label='Name of Organization*'
                         />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='state'
-                            label='State'
-                            checked={checkBoxState.state}
-                            onChange={handleChange}
-                            name='state'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='individual'
-                            label='Individual'
-                            checked={checkBoxState.individual}
-                            onChange={handleChange}
-                            name='individual'
-                            color='primary'
-                        />
-                    </Grid>
-                </Grid>
-                <Grid item xs={12}>
-                    <FormLabel component='label'>Type of Activities</FormLabel>
-                </Grid>
-                <Grid container item spacing={1} xs={12}>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='production'
-                            label='Production'
-                            checked={checkBoxState.production}
-                            onChange={handleChange}
-                            name='production'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='trade'
-                            label='Trade'
-                            checked={checkBoxState.trade}
-                            onChange={handleChange}
-                            name='trade'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='services'
-                            label='Services'
-                            checked={checkBoxState.services}
-                            onChange={handleChange}
-                            name='services'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='it'
-                            label='IT'
-                            checked={checkBoxState.IT}
-                            onChange={handleChange}
-                            name='IT'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id=''
-                            label='Culture'
-                            checked={checkBoxState.culture}
-                            onChange={handleChange}
-                            name='culture'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='militaryForces'
-                            label='Military Forces'
-                            checked={checkBoxState.militaryForces}
-                            onChange={handleChange}
-                            name='militaryForces'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='transport'
-                            label='Transport'
-                            checked={checkBoxState.transport}
-                            onChange={handleChange}
-                            name='transport'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='building'
-                            label='Building'
-                            checked={checkBoxState.building}
-                            onChange={handleChange}
-                            name='building'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='agriculture'
-                            label='Agriculture'
-                            checked={checkBoxState.agriculture}
-                            onChange={handleChange}
-                            name='agriculture'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='education'
-                            label='Education'
-                            checked={checkBoxState.education}
-                            onChange={handleChange}
-                            name='education'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='medecine'
-                            label='Medecine'
-                            checked={checkBoxState.medecine}
-                            onChange={handleChange}
-                            name='medecine'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='science'
-                            label='Science'
-                            checked={checkBoxState.science}
-                            onChange={handleChange}
-                            name='science'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='lawEnforcement'
-                            label='Law Enforcement'
-                            checked={checkBoxState.lawEnforcement}
-                            onChange={handleChange}
-                            name='law'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='privateSecurity'
-                            label='Private Security'
-                            checked={checkBoxState.privateSecurity}
-                            onChange={handleChange}
-                            name='privateSecurity'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='jurisprudence'
-                            label='Jurisprudence'
-                            checked={checkBoxState.jurisprudence}
-                            onChange={handleChange}
-                            name='jurisprudence'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='finance'
-                            label='Finance'
-                            checked={checkBoxState.finance}
-                            onChange={handleChange}
-                            name='finance'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='other'
-                            label='Other'
-                            checked={checkBoxState.other}
-                            onChange={handleChange}
-                            name='other'
-                            color='primary'
-                        />
-                    </Grid>
-                </Grid>
-                <Grid item xs={12}>
-                    <FormLabel>Type of position held</FormLabel>
-                </Grid>
-                <Grid container item spacing={1} xs={12}>
-                    <Grid item xs={12} sm={6}>
-                        <BlueCheckBox
-                            id='organizationLeadership'
-                            label='Organization Leadership'
-                            checked={checkBoxState.organizationLeadership}
-                            onChange={handleChange}
-                            name='organizationLeadership'
-                            color='primary'
-                        />
+                        {
+                            errors.organizationName &&
+                            <Box component='span' className={classes.error}>
+                                {errors.organizationName.message}
+                            </Box>
+                        }
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <BlueCheckBox
-                            id='departmentManagement'
-                            label='Department Management'
-                            checked={checkBoxState.departmentManagement}
-                            onChange={handleChange}
-                            name='departmentManagement'
-                            color='primary'
+                        <Input
+                            {...register('taxNumber', {
+                                required: 'This field is required',
+                            })}
+                            id='taxNumber'
+                            type='text'
+                            name='taxNumber'
+                            label='Tax Number*'
                         />
+                        {
+                            errors.taxNumber &&
+                            <Box component='span' className={classes.error}>
+                                {errors.taxNumber.message}
+                            </Box>
+                        }
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <BlueCheckBox
-                            id='selfEmployed'
-                            label='Self Employed'
-                            checked={checkBoxState.selfEmployed}
-                            onChange={handleChange}
-                            name='selfEmployed'
-                            color='primary'
+                        <Input
+                            {...register('webSite')}
+                            id='webSite'
+                            name='webSite'
+                            type='text'
+                            label='Web Site'
                         />
                     </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <BlueCheckBox
-                            id='specialist'
-                            label='Specialist'
-                            checked={checkBoxState.specialist}
-                            onChange={handleChange}
-                            name='specialist'
-                            color='primary'
+                    <Grid item xs={12}>
+                        <Input
+                            {...register('workPhone', {
+                                required: 'This field is required'
+                            })}
+                            id='workPhone'
+                            name='workPhone'
+                            type='text'
+                            label='Work Phone*'
+                        />
+                        {
+                            errors.workPhone &&
+                            <span className={classes.error}>
+                                {errors.workPhone.message}
+                            </span>
+                        }
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Input
+                            {...register('workAddress', {
+                                required: 'This field is required'
+                            })}
+                            id='workAdress'
+                            name='workAddress'
+                            type='text'
+                            label='Work Address*'
+                        />
+                        {
+                            errors.workAddress &&
+                            <span className={classes.error}>
+                                {errors.workAddress.message}
+                            </span>
+                        }
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Input
+                            {...register('chief')}
+                            id='chief'
+                            name='chief'
+                            type='text'
+                            label='Name of the Chief Executive'
                         />
                     </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                    <FormLabel>Work experience in the position held</FormLabel>
+                <Grid container item xs={12} id='typeOwnershipContainer'>
+                    <Grid item xs={12} id='typeOwnershipTitle'>
+                        <FormLabel component='label'>Type of Ownership*</FormLabel>
+                    </Grid>
+                    <Grid item xs={12} id='typeOwnershipContent'>
+                        <FormControl component='fieldset'>
+                            <RadioGroup row
+                                {...register('typeOwnership', {
+                                    required: '⚠️ This field is required'
+                                })}
+                            >
+                                {typeOwnershipContent.map(({ id, name, value, label, index }) => (
+                                    <RadioButton
+                                        key={index}
+                                        id={id}
+                                        name={name}
+                                        value={value}
+                                        label={label}
+                                    />
+                                ))}
+                            </RadioGroup>
+                            {
+                                errors.typeOwnership &&
+                                <Box component='span' className={classes.error}>
+                                    {errors.typeOwnership.message}
+                                </Box>
+                            }
+                        </FormControl>
+                    </Grid>
                 </Grid>
-                <Grid container item spacing={1} xs={12}>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='lessThanFourMonth'
-                            label='Less Than Four Month'
-                            checked={checkBoxState.lessThanFourMonth}
-                            onChange={handleChange}
-                            name='lessThanFourMonth'
-                            color='primary'
-                        />
+                <Grid container item xs={12} id='typeOfActivitiesContainer'>
+                    <Grid item xs={12} id='typeOfActivitiesTitle'>
+                        <FormLabel component='label'>Type of Activities*</FormLabel>
                     </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='fromFourToSixMonth'
-                            label='From Four to Six Month'
-                            checked={checkBoxState.fromFourToSixMonth}
-                            onChange={handleChange}
-                            name='fromFourToSixMonth'
-                            color='primary'
-                        />
+                    <Grid container item xs={12} id='typeOfActivitiesContent'>
+                        <FormControl component='fieldset'>
+                            <RadioGroup row
+                                {...register('typeActivities', {
+                                    required: '⚠️ This field is required'
+                                })}
+                            >
+                                {typeOfActivitiesContent.map(({ id, name, value, label, index }) => (
+                                    <Grid item xs={12} sm={4} key={index}>
+                                        <RadioButton
+                                            id={id}
+                                            name={name}
+                                            value={value}
+                                            label={label}
+                                        />
+                                    </Grid>
+                                ))}
+                            </RadioGroup>
+                            {
+                                errors.typeActivities &&
+                                <Box component='span' className={classes.error}>
+                                    {errors.typeActivities.message}
+                                </Box>
+                            }
+                        </FormControl>
                     </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='fromSixToOneYear'
-                            label='From Six to One Year'
-                            checked={checkBoxState.fromSixToOneYear}
-                            onChange={handleChange}
-                            name='fromSixToOneYear'
-                            color='primary'
-                        />
+                </Grid>
+                <Grid container item xs={12} id='typePositionHeldContainer'>
+                    <Grid item xs={12} id='typePositionHeldTitle'>
+                        <FormLabel component='label'>
+                            Type of Position Held*
+                        </FormLabel>
                     </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='fromOneToThreeYear'
-                            label='From One to Three Year'
-                            checked={checkBoxState.fromOneToThreeYear}
-                            onChange={handleChange}
-                            name='fromOneToThreeYear'
-                            color='primary'
-                        />
+                    <Grid item xs={12} id='typePositionHeldContent'>
+                        <FormControl component='fieldset'>
+                            <RadioGroup row
+                                {...register('typePositionHeld', {
+                                    required: '⚠️ This field is required'
+                                })}
+                            >
+                                {typePositionHeldContent.map(({ id, name, value, label, index }) => (
+                                    <Grid item xs={12} sm={6} key={index}>
+                                        <RadioButton
+                                            id={id}
+                                            name={name}
+                                            value={value}
+                                            label={label}
+                                        />
+                                    </Grid>
+                                ))}
+                            </RadioGroup>
+                            {
+                                errors.typePositionHeld &&
+                                <Box component='span' className={classes.error}>
+                                    {errors.typePositionHeld.message}
+                                </Box>
+                            }
+                        </FormControl>
                     </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='fromThreeToTenYear'
-                            label='From Three to Ten Year'
-                            checked={checkBoxState.fromThreeToTenYear}
-                            onChange={handleChange}
-                            name='fromThreeToTenYear'
-                            color='primary'
-                        />
+                </Grid>
+                <Grid container item xs={12} id='workExperiencePositionHeldContainer'>
+                    <Grid item xs={12} id='workExperiencePositionHeldTitle'>
+                        <FormLabel component='label'>
+                            Work Experience in the Position Held*
+                        </FormLabel>
                     </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id=''
-                            label='Over Ten Years'
-                            checked={checkBoxState.overTenYears}
-                            onChange={handleChange}
-                            name='overTenYears'
-                            color='primary'
-                        />
+                    <Grid item xs={12} id='workExperiencePositionHeldContent'>
+                        <FormControl component='fieldset'>
+                            <RadioGroup row
+                                {...register('workExperiencePositionHeld', {
+                                    required: '⚠️ This field is required'
+                                })}
+                            >
+                                {workExperiencePositionHeldContent.map(({ id, name, value, label, index }) => (
+                                    <Grid item xs={12} sm={6} key={index}>
+                                        <RadioButton
+                                            id={id}
+                                            name={name}
+                                            value={value}
+                                            label={label}
+                                        />
+                                    </Grid>
+                                ))}
+                            </RadioGroup>
+                            {
+                                errors.workExperiencePositionHeld &&
+                                <Box component='span' className={classes.error}>
+                                    {errors.workExperiencePositionHeld.message}
+                                </Box>
+                            }
+                        </FormControl>
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>

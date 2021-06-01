@@ -1,30 +1,35 @@
 import React from 'react';
-import { useHistory } from 'react-router';
 import { useForm } from 'react-hook-form';
-import { Grid, Typography } from '@material-ui/core';
+import { useHistory } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { Grid, Typography, Box } from '@material-ui/core';
 import { Form } from '../customComponents/Form';
 import { Input } from '../customComponents/Input';
-import { NextButton } from '../customComponents/NextButton';
+import { CustomButton as NextButton } from '../customComponents/CustomButton';
 import { useStyles } from '../../App';
-
-type TInputs = {
-    phone: string,
-    additionalPhone: string,
-    email: string,
-};
+import { TContactInputs } from '../../types';
+import { setContactsActionCreator } from '../../redux';
 
 export const Contacts = (): JSX.Element => {
     const classes = useStyles();
     const history = useHistory();
+    const dispatch = useDispatch();
 
-    const { register, handleSubmit, formState: { errors } } = useForm<TInputs>();
+    const { register, handleSubmit, formState: { errors } } = useForm<TContactInputs>({
+        mode: 'onBlur',
+    });
 
-    const onSubmit = (data: {}): void => {
-        console.log(data);
+    const idContacts = { id: 'contacts' };
+
+    const onSubmit = (inputsState: TContactInputs): void => {
+        dispatch(setContactsActionCreator({
+            ...idContacts,
+            ...inputsState,
+        }));
         history.push('/RegistrationAddress');
         return;
     }
-
+    // TODO: Complete the required patterns
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
             <Grid container item spacing={1} className={classes.container}>
@@ -36,17 +41,18 @@ export const Contacts = (): JSX.Element => {
                 <Grid item xs={12} sm={6}>
                     <Input
                         {...register('phone', {
-                            required: 'This field is required'
+                            required: 'This field is required',
                         })}
                         id='phone'
+                        name='phone'
                         type='text'
                         label='Mobile*'
                     />
                     {
-                        errors.phone && 
-                        <span className={classes.error}>
+                        errors.phone &&
+                        <Box component='span' className={classes.error}>
                             {errors.phone.message}
-                        </span>
+                        </Box>
                     }
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -55,14 +61,15 @@ export const Contacts = (): JSX.Element => {
                             required: 'This field is required'
                         })}
                         id='additionalPhone'
+                        name='additionalPhone'
                         type='text'
                         label='Additional Phone*'
                     />
                     {
-                        errors.additionalPhone && 
-                        <span className={classes.error}>
+                        errors.additionalPhone &&
+                        <Box component='span' className={classes.error}>
                             {errors.additionalPhone.message}
-                        </span>
+                        </Box>
                     }
                 </Grid>
                 <Grid item xs={12}>
@@ -71,14 +78,15 @@ export const Contacts = (): JSX.Element => {
                             required: 'This field is required'
                         })}
                         id='email'
+                        name='email'
                         type='email'
                         label='E-mail*'
                     />
                     {
-                        errors.email && 
-                        <span className={classes.error}>
+                        errors.email &&
+                        <Box component='span' className={classes.error}>
                             {errors.email.message}
-                        </span>
+                        </Box>
                     }
                 </Grid>
                 <Grid item xs={12}>

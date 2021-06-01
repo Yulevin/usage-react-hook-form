@@ -1,49 +1,55 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { Grid, Typography, FormLabel, Box, FormControl, RadioGroup } from '@material-ui/core';
 import { Form } from '../customComponents/Form';
-import { Grid, Typography, FormLabel } from '@material-ui/core';
-import { BlueCheckBox } from '../customComponents/BlueCheckBox';
 import { Input } from '../customComponents/Input';
+import { RadioButton } from '../customComponents/RadioButton';
+import { CustomButton as NextButton } from '../customComponents/CustomButton';
 import { useStyles } from '../../App';
-import { NextButton } from '../customComponents/NextButton';
-
-type TInputs = {
-    dependent: string,
-};
+import { TEducationStatusInputs } from '../../types';
+import { setEducationStatusActionCreator } from '../../redux';
 
 export const EducationStatus = (): JSX.Element => {
     const classes = useStyles();
     const history = useHistory();
+    const dispatch = useDispatch();
 
-    const { register, handleSubmit, formState: { errors } } = useForm<TInputs>();
-
-    const [checkBoxState, setCheckBoxState] = useState({
-        degree: false,
-        higher: false,
-        secondHigher: false,
-        incompleteHigher: false,
-        specializedSecondary: false,
-        secondary: false,
-        lowerSecondary: false,
-        married: false,
-        single: false,
-        divorced: false,
-        civilMarriage: false,
-        other: false,
+    const { register, handleSubmit, formState: { errors } } = useForm<TEducationStatusInputs>({
+        mode: 'onBlur',
     });
 
-    const checkBoxHandleChange = (event: React.BaseSyntheticEvent): void => {
-        setCheckBoxState({ ...checkBoxState, [event.target.name]: event.target.checked });
-        return;
-    }
+    const educationStatusId = { id: 'educationStatus' };
 
-    const onSubmit = (data: {}): void => {
-        console.log('Education and Family Status: ', data, {...checkBoxState});
+    const onSubmit = (inputsState: TEducationStatusInputs): void => {
+        dispatch(setEducationStatusActionCreator({
+            ...educationStatusId,
+            ...inputsState,
+        }));
         history.push('/Employment');
         return;
     }
 
+    const educationStatusContent = [
+        { index: 0, name: 'educationStatus', id: 'degree', value: 'Degree/MBA', label: 'Degree/MBA' },
+        { index: 1, name: 'educationStatus', id: 'higher', value: 'Higher Education', label: 'Higher Education' },
+        { index: 2, name: 'educationStatus', id: 'secondHigher', value: 'Second Education', label: 'Second Education' },
+        { index: 3, name: 'educationStatus', id: 'incompleteHigher', value: 'Incomplete Higher', label: 'Incomplete Higher' },
+        { index: 4, name: 'educationStatus', id: 'specializedSecondary', value: 'Specialized Secondary', label: 'Specialized Secondary' },
+        { index: 5, name: 'educationStatus', id: 'secondary', value: 'Secondary', label: 'Secondary' },
+        { index: 6, name: 'educationStatus', id: 'lowerSecondary', value: 'Lower Secondary', label: 'Lower Secondary' },
+    ];
+
+    const familyStatusContent = [
+        { index: 0, name: 'familyStatus', id: 'married', value: 'Married', label: 'Married' },
+        { index: 1, name: 'familyStatus', id: 'single', value: 'Single', label: 'Single' },
+        { index: 2, name: 'familyStatus', id: 'divorced', value: 'Divorced', label: 'Divorced' },
+        { index: 3, name: 'familyStatus', id: 'civilMarriage', value: 'Civil Marriage', label: 'Civil Marriage' },
+        { index: 4, name: 'familyStatus', id: 'other', value: 'Other', label: 'Other' },
+    ];
+
+    // TODO: Complete the required patterns
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
             <Grid container item spacing={1} className={classes.container}>
@@ -52,155 +58,93 @@ export const EducationStatus = (): JSX.Element => {
                         Education and Family Status
                     </Typography>
                 </Grid>
-                <Grid item xs={12}>
-                    <FormLabel component='label'>Education Status</FormLabel>
-                </Grid>
-                <Grid container item xs={12}>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='degree'
-                            label='Degree/MBA'
-                            checked={checkBoxState.degree}
-                            onChange={checkBoxHandleChange}
-                            name='degree'
-                            color='primary'
-                        />
+                <Grid container item spacing={1} xs={12} id='educationFamilyStatusContainer'>
+                    <Grid item xs={12} id='educationFamilyStatusText'>
+                        <Typography>
+                            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                            Quo fugiat vero tempore dicta, maiores, quisquam nobis quod
+                            adipisci officia fugit cumque delectus optio. Veritatis incidunt
+                            a commodi voluptate, dolores maxime!
+                        </Typography>
                     </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='higher'
-                            label='Higher Education'
-                            checked={checkBoxState.higher}
-                            onChange={checkBoxHandleChange}
-                            name='higher'
-                            color='primary'
-                        />
+                    <Grid item xs={12} sm={6} id='educationStatusContent'>
+                        <FormLabel component='legend' color='secondary'>
+                            Education Status*
+                        </FormLabel>
+                        <FormControl component='fieldset'>
+                            <RadioGroup row
+                                {...register('educationStatus', {
+                                    required: '⚠️ This field is required'
+                                })}
+                            >
+                                {educationStatusContent.map(({ id, name, value, label, index }) => (
+                                    <Grid item xs={12} sm={6} key={index}>
+                                        <RadioButton
+                                            id={id}
+                                            name={name}
+                                            value={value}
+                                            label={label}
+                                        />
+                                    </Grid>
+                                ))}
+                            </RadioGroup>
+                            {
+                                errors.educationStatus &&
+                                <Box component='span' className={classes.error}>
+                                    {errors.educationStatus.message}
+                                </Box>
+                            }
+                        </FormControl>
                     </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='secondHigher'
-                            label='Second Higher'
-                            checked={checkBoxState.secondHigher}
-                            onChange={checkBoxHandleChange}
-                            name='secondHigher'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='incompleteHigher'
-                            label='Incomplete Higher'
-                            checked={checkBoxState.incompleteHigher}
-                            onChange={checkBoxHandleChange}
-                            name='incompleteHigher'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='specializedSecondary'
-                            label='Specialized Secondary'
-                            checked={checkBoxState.specializedSecondary}
-                            onChange={checkBoxHandleChange}
-                            name='specializedSecondary'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='secondary'
-                            label='Secondary'
-                            checked={checkBoxState.secondary}
-                            onChange={checkBoxHandleChange}
-                            name='secondary'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='lowerSecondary'
-                            label='Lower Secondary'
-                            checked={checkBoxState.lowerSecondary}
-                            onChange={checkBoxHandleChange}
-                            name='lowerSecondary'
-                            color='primary'
-                        />
+                    <Grid item xs={12} sm={6} id='FamilyStatusContent'>
+                        <FormLabel component='legend' color='secondary'>
+                            Family Status*
+                        </FormLabel>
+                        <FormControl component='fieldset'>
+                            <RadioGroup row
+                                {...register('familyStatus', {
+                                    required: '⚠️ This field is required'
+                                })}
+                            >
+                                {familyStatusContent.map(({ id, name, value, label, index }) => (
+                                    <Grid item xs={12} sm={6} key={index}>
+                                        <RadioButton
+                                            id={id}
+                                            name={name}
+                                            value={value}
+                                            label={label}
+                                        />
+                                    </Grid>
+                                ))}
+                            </RadioGroup>
+                            {
+                                errors.familyStatus &&
+                                <Box component='span' className={classes.error}>
+                                    {errors.familyStatus.message}
+                                </Box>
+                            }
+                        </FormControl>
                     </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                    <FormLabel component='label'>Family Status</FormLabel>
-                </Grid>
-                <Grid container item xs={12}>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='married'
-                            label='Married'
-                            checked={checkBoxState.married}
-                            onChange={checkBoxHandleChange}
-                            name='married'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='single'
-                            label='Single'
-                            checked={checkBoxState.single}
-                            onChange={checkBoxHandleChange}
-                            name='single'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='divorced'
-                            label='Divorced'
-                            checked={checkBoxState.divorced}
-                            onChange={checkBoxHandleChange}
-                            name='divorced'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='civilMarriage'
-                            label='Civil Marriage'
-                            checked={checkBoxState.civilMarriage}
-                            onChange={checkBoxHandleChange}
-                            name='civilMarriage'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='other'
-                            label='Other'
-                            checked={checkBoxState.other}
-                            onChange={checkBoxHandleChange}
-                            name='other'
-                            color='primary'
-                        />
-                    </Grid>
-                </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} id='dependentStatus'>
                     <Input
                         {...register('dependent', {
-                            required: 'This field is required',
+                            required: '⚠️ This field is required',
                             pattern: {
                                 value: /[0-9]/,
-                                message: 'This field is number only'
+                                message: '⚠️ This field is number only'
                             }
                         })}
                         id='dependent'
-                        type='text'
                         name='dependent'
+                        type='text'
                         label='How many dependents do you support?'
                     />
                     {
                         errors.dependent &&
-                        <span className={classes.error}>
+                        <Box component='span' className={classes.error}>
                             {errors.dependent.message}
-                        </span>
+                        </Box>
                     }
                 </Grid>
                 <Grid item xs={12}>

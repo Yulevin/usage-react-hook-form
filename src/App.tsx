@@ -13,7 +13,7 @@ import { MonthlyIncome } from './components/appComponents/MonthlyIncome';
 import { CreditParameters } from './components/appComponents/CreditParameters';
 import { TotalPage } from './components/appComponents/TotalPage';
 
-export enum palleteEnum {
+enum palleteEnum {
     colorGrey = 'rgb(82, 86, 89)',
     colorWhite = 'rgb(255, 255, 255)',
     colorBackgroundHeader = 'rgb(36, 64, 94)',
@@ -42,7 +42,7 @@ export const useStyles = makeStyles(() =>
     }),
 );
 
-let body = document.querySelector('body');
+const body = document.querySelector('body');
 if (body) body.style.backgroundColor = palleteEnum.colorGrey;
 
 export default function App() {
@@ -60,7 +60,7 @@ export default function App() {
                             Credit Application Form
                         </Typography>
                     </Grid>
-                    <Grid container item component='main' xs={12}>
+                    <Grid container item xs={12} component='main'>
                         <Router>
                             <Switch>
                                 <Route exact path='/' component={GeneralInformation} />

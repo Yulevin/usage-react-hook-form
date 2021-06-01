@@ -1,33 +1,32 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useHistory } from 'react-router';
-import { Grid, Typography } from '@material-ui/core';
-import { Input } from '../customComponents/Input';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { Form } from '../customComponents/Form';
-import { NextButton } from '../customComponents/NextButton';
+import { Grid, Typography, Box } from '@material-ui/core';
+import { Input } from '../customComponents/Input';
+import { CustomButton as NextButton } from '../customComponents/CustomButton';
 import { useStyles } from '../../App';
+import { TRegistrationAddressInputs } from '../../types';
+import { setRegistrationAddressActionCreator } from '../../redux';
 
-type TInputs = {
-    postCode: string,
-    region: string,
-    city: string,
-    street: string,
-    houseNumber: string,
-    houseBuilding: string,
-    apartment: string,
-};
-
-export const RegistrationAddress = () => {
+export const RegistrationAddress = (): JSX.Element => {
     const classes = useStyles();
     const history = useHistory();
-    
-    const { register, handleSubmit, formState: { errors } } = useForm<TInputs>();
+    const dispatch = useDispatch();
 
-    const onSubmit = (data: {}): void => {
-        console.log('Registration Address: ', data);
+    const { register, handleSubmit, formState: { errors } } = useForm<TRegistrationAddressInputs>();
+
+    const registrationAddressId = { id: 'registrationAddress' };
+
+    const onSubmit = (inputsState: TRegistrationAddressInputs): void => {
+        dispatch(setRegistrationAddressActionCreator({
+            ...registrationAddressId,
+            ...inputsState,
+        }));
         history.push('/ActualLocationAddress');
         return;
-    };
+    }
 
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
@@ -35,7 +34,7 @@ export const RegistrationAddress = () => {
                 <Grid item xs={12} className={classes.header}>
                     <Typography component='h2' variant='h6' align='center'>
                         Registration Address
-                </Typography>
+                    </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <Input
@@ -47,14 +46,14 @@ export const RegistrationAddress = () => {
                         label='Post Code*'
                     />
                     {
-                        errors.postCode && 
-                        <span className={classes.error}>
+                        errors.postCode &&
+                        <Box component='span' className={classes.error}>
                             {errors.postCode.message}
-                        </span>
+                        </Box>
                     }
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    <Input 
+                    <Input
                         {...register('region', {
                             required: 'This field is required'
                         })}
@@ -63,10 +62,10 @@ export const RegistrationAddress = () => {
                         label='Region*'
                     />
                     {
-                        errors.region && 
-                        <span className={classes.error}>
+                        errors.region &&
+                        <Box component='span' className={classes.error}>
                             {errors.region.message}
-                        </span>
+                        </Box>
                     }
                 </Grid>
                 <Grid item xs={12}>
@@ -79,10 +78,10 @@ export const RegistrationAddress = () => {
                         label='City*'
                     />
                     {
-                        errors.city && 
-                        <span className={classes.error}>
+                        errors.city &&
+                        <Box component='span' className={classes.error}>
                             {errors.city.message}
-                        </span>
+                        </Box>
                     }
                 </Grid>
                 <Grid item xs={12}>
@@ -95,10 +94,10 @@ export const RegistrationAddress = () => {
                         label='Street*'
                     />
                     {
-                        errors.street && 
-                        <span className={classes.error}>
+                        errors.street &&
+                        <Box component='span' className={classes.error}>
                             {errors.street.message}
-                        </span>
+                        </Box>
                     }
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -111,10 +110,10 @@ export const RegistrationAddress = () => {
                         label='House Number*'
                     />
                     {
-                        errors.houseNumber && 
-                        <span className={classes.error}>
+                        errors.houseNumber &&
+                        <Box component='span' className={classes.error}>
                             {errors.houseNumber.message}
-                        </span>
+                        </Box>
                     }
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -127,10 +126,10 @@ export const RegistrationAddress = () => {
                         label='House Building*'
                     />
                     {
-                        errors.houseBuilding && 
-                        <span className={classes.error}>
+                        errors.houseBuilding &&
+                        <Box component='span' className={classes.error}>
                             {errors.houseBuilding.message}
-                        </span>
+                        </Box>
                     }
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -143,10 +142,10 @@ export const RegistrationAddress = () => {
                         label='Apartment*'
                     />
                     {
-                        errors.apartment && 
-                        <span className={classes.error}>
+                        errors.apartment &&
+                        <Box component='span' className={classes.error}>
                             {errors.apartment.message}
-                        </span>
+                        </Box>
                     }
                 </Grid>
                 <Grid item xs={12}>

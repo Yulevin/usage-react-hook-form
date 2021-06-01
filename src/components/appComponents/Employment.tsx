@@ -1,37 +1,45 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { Grid, Typography, FormLabel } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+import { Grid, Box, Typography, FormLabel, FormControl, RadioGroup } from '@material-ui/core';
 import { Form } from '../customComponents/Form';
-import { BlueCheckBox } from '../customComponents/BlueCheckBox';
+import { RadioButton } from '../customComponents/RadioButton';
+import { CustomButton as NextButton } from '../customComponents/CustomButton';
 import { useStyles } from '../../App';
-import { NextButton } from '../customComponents/NextButton';
+import { setEmploymentActionCreator } from '../../redux';
+import { TEmploymentInputs } from '../../types';
 
 export const Employment = (): JSX.Element => {
     const classes = useStyles();
     const history = useHistory();
+    const dispatch = useDispatch();
 
-    const { handleSubmit } = useForm();
-
-    const [checkBoxState, setCheckBoxState] = useState({
-        lessThanSixMonth: false,
-        fromSixMonthToOneYear: false,
-        fromOneToThreeYears: false,
-        fromThreeToTenYears: false,
-        overTenYears: false,
+    const { register, handleSubmit, formState: { errors } } = useForm<TEmploymentInputs>({
+        mode: 'onBlur',
     });
 
-    const handleChangeBox = (event: React.BaseSyntheticEvent): void => {
-        setCheckBoxState({ ...checkBoxState, [event.target.name]: event.target.checked });
-        return;
-    }
+    const employmentId = { id: 'employment' };
 
-    const onSubmit = (): void => {
-        console.log('Employment: ', {...checkBoxState});
+    const onSubmit = (inputsState: TEmploymentInputs): void => {
+        dispatch(setEmploymentActionCreator({
+            ...employmentId,
+            ...inputsState,
+        }));
         history.push('/MainPlaceOfWork');
         return;
     }
 
+    const totalWorkExperienceContent = [
+        { index: 0, name: 'totalWorkExperience', id: 'lessThanSixMonth', value: 'Less than 6 months', label: 'Less than 6 months' },
+        { index: 1, name: 'totalWorkExperience', id: 'fromSixMonthToOneYear', value: 'Less than 6 months', label: 'From 6 months to 1 year' },
+        { index: 2, name: 'totalWorkExperience', id: 'fromOneToThreeYears', value: 'From 1 to 3 years', label: 'From 1 to 3 years' },
+        { index: 3, name: 'totalWorkExperience', id: 'fromThreeToTenYears', value: 'From 3 to 10 years', label: 'From 3 to 10 years' },
+        { index: 4, name: 'totalWorkExperience', id: 'overTenYears', value: 'Over 10 years', label: 'Over 10 years' },
+    ];
+
+    // TODO: add text instead lorem
+    // TODO: grid layout
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
             <Grid container item spacing={1} className={classes.container}>
@@ -40,65 +48,51 @@ export const Employment = (): JSX.Element => {
                         Employment
                     </Typography>
                 </Grid>
-                <Grid container item spacing={1} xs={12}>
-                    <Grid item xs={12}>
-                        <FormLabel component='label'>Total work experience</FormLabel>
+                <Grid item xs={12} id='totalWorkText'>
+                    <Typography>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                        Tempora magni voluptatem saepe voluptates earum. Doloribus
+                        possimus eos voluptatibus, assumenda id sint error dolor
+                        cupiditate explicabo nihil dicta, soluta optio nostrum.
+                    </Typography>
+                </Grid>
+                <Grid container item spacing={1} xs={12} id='totalWorkContainer'>
+                    <Grid item xs={12} id='totalWorkExperienceTitle'>
+                        <FormLabel component='label' color='secondary'>
+                            Total work experience*
+                        </FormLabel>
                     </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='lessThanSixMonth'
-                            label='Less Than Six Month'
-                            checked={checkBoxState.lessThanSixMonth}
-                            onChange={handleChangeBox}
-                            color='primary'
-                            name='lessThanSixMonth'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='fromSixMonthToOneYear'
-                            label='From Six Month to One Year'
-                            checked={checkBoxState.fromSixMonthToOneYear}
-                            onChange={handleChangeBox}
-                            name='fromSixMonthToOneYear'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='fromOneToThreeYears'
-                            label='From One to Three Years'
-                            checked={checkBoxState.fromOneToThreeYears}
-                            onChange={handleChangeBox}
-                            name='fromOneToThreeYears'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='fromThreeToTenYears'
-                            label='From Three to Ten Years'
-                            checked={checkBoxState.fromThreeToTenYears}
-                            onChange={handleChangeBox}
-                            name='fromThreeToTenYears'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <BlueCheckBox
-                            id='overTenYears'
-                            label='Over Ten Years'
-                            checked={checkBoxState.overTenYears}
-                            onChange={handleChangeBox}
-                            name='overTenYears'
-                            color='primary'
-                        />
+                    <Grid item xs={12} id='totalWorkExperienceContent'>
+                        <FormControl component='fieldset'>
+                            <RadioGroup row
+                                {...register('totalWorkExperience', {
+                                    required: '⚠️ This field is required'
+                                })}
+                            >
+                                {totalWorkExperienceContent.map(({ id, name, value, label, index }) => (
+                                    <Grid item xs={12} sm={6} key={index}>
+                                        <RadioButton
+                                            id={id}
+                                            name={name}
+                                            value={value}
+                                            label={label}
+                                        />
+                                    </Grid>
+                                ))}
+                            </RadioGroup>
+                            {
+                                errors.totalWorkExperience &&
+                                <Box component='span' className={classes.error}>
+                                    {errors.totalWorkExperience.message}
+                                </Box>
+                            }
+                        </FormControl>
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>
                     <NextButton>Next</NextButton>
                 </Grid>
             </Grid>
-        </Form>
+        </Form >
     );
 }

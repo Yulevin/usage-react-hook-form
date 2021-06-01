@@ -1,30 +1,32 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { Grid, Typography } from '@material-ui/core';
-import { Input } from '../customComponents/Input';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Grid, Typography, Box } from '@material-ui/core';
 import { Form } from '../customComponents/Form';
-import { NextButton } from '../customComponents/NextButton';
+import { Input } from '../customComponents/Input';
+import { CustomButton as NextButton } from '../customComponents/CustomButton';
 import { useStyles } from '../../App';
+import { TMonthlyIncomeInputs } from '../../types';
+import { setMonthlyIncomeActionCreator } from '../../redux';
 
-type TInputs = {
-    income: string,
-    addIncome: string,
-    pension: string,
-    otherIncome: string,
-};
-
-export const MonthlyIncome = () => {
+export const MonthlyIncome = (): JSX.Element => {
     const classes = useStyles();
     const history = useHistory();
+    const dispatch = useDispatch();
 
-    const { register, handleSubmit, formState: { errors } } = useForm<TInputs>();
-    
-    const onSubmit = (data: {}): void => {
-        console.log('Monthly Income: ', data);
+    const { register, handleSubmit, formState: { errors } } = useForm<TMonthlyIncomeInputs>();
+
+    const moonthlyIncomeId = { id: 'moonthlyIncome' };
+
+    const onSubmit = (inputsState: TMonthlyIncomeInputs): void => {
+        dispatch(setMonthlyIncomeActionCreator({
+            ...moonthlyIncomeId,
+            ...inputsState,
+        }));
         history.push('/CreditParameters');
         return;
-    };
+    }
 
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
@@ -46,13 +48,13 @@ export const MonthlyIncome = () => {
                     />
                     {
                         errors.income &&
-                        <span className={classes.error}>
+                        <Box component='span' className={classes.error}>
                             {errors.income.message}
-                        </span>
+                        </Box>
                     }
                 </Grid>
                 <Grid item xs={6}>
-                    <Input 
+                    <Input
                         {...register('addIncome')}
                         id='addIncome'
                         type='text'
@@ -61,7 +63,7 @@ export const MonthlyIncome = () => {
                     />
                 </Grid>
                 <Grid item xs={6}>
-                    <Input 
+                    <Input
                         {...register('pension')}
                         id='pension'
                         type='text'
@@ -70,7 +72,7 @@ export const MonthlyIncome = () => {
                     />
                 </Grid>
                 <Grid item xs={6}>
-                    <Input 
+                    <Input
                         {...register('otherIncome')}
                         id='otherIncome'
                         type='text'

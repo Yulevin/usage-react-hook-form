@@ -1,40 +1,36 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { Grid, Typography } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+import { Grid, Typography, Box, FormControl, FormLabel, RadioGroup } from '@material-ui/core';
 import { Form } from '../customComponents/Form';
 import { Input } from '../customComponents/Input';
-import { BlueCheckBox } from '../customComponents/BlueCheckBox';
-import { NextButton } from '../customComponents/NextButton';
+import { RadioButton } from '../customComponents/RadioButton';
+import { CustomButton as NextButton } from '../customComponents/CustomButton';
 import { useStyles } from '../../App';
-
-type TInputs = {
-    creditSum: string,
-    creditTerm: string,
-};
+import { TCreditParametersInputs } from '../../types';
+import { setCreditParametersActionCreator } from '../../redux';
 
 export const CreditParameters = (): JSX.Element => {
     const classes = useStyles();
     const history = useHistory();
-    
-    const { register, handleSubmit, formState: { errors } } = useForm<TInputs>();
+    const dispatch = useDispatch();
 
-    const [checkBoxState, setCheckBoxState] = useState({
-        agree: false,
-        disagree: false,
+    const { register, handleSubmit, formState: { errors } } = useForm<TCreditParametersInputs>({
+        mode: 'onBlur',
     });
 
-    const handleChange = (event: React.BaseSyntheticEvent): void => {
-        setCheckBoxState({ ...checkBoxState, [event.target.name]: event.target.checked });
-        return;
-    }
+    const creditParametersId = { id: 'creditParameters' };
 
-    const onSubmit = (data: {}): void => {
-        console.log('Credit Parameters: ', data, { ...checkBoxState });
+    const onSubmit = (inputsState: TCreditParametersInputs): void => {
+        dispatch(setCreditParametersActionCreator({
+            ...creditParametersId,
+            ...inputsState,
+        }));
         history.push('/TotalPage');
         return;
     }
-
+    // TODO: Complete the required patterns
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
             <Grid container item spacing={1} className={classes.container}>
@@ -55,31 +51,35 @@ export const CreditParameters = (): JSX.Element => {
                     />
                     {
                         errors.creditSum &&
-                        <span className={classes.error}>
+                        <Box component='span' className={classes.error}>
                             {errors.creditSum.message}
-                        </span>
+                        </Box>
                     }
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <Input
                         {...register('creditTerm', {
-                            required: 'This field is required',
+                            required: '⚠️ This field is required',
                             pattern: {
-                                value: /[0-9]/,
-                                message: 'This input is number only',
+                                value: /^[0-9]+$/,
+                                message: '⚠️ This field is number only',
+                            },
+                            max: {
+                                value: 2,
+                                message: '⚠️ No more than two characters',
                             }
                         })}
                         id='creditTerm'
                         type='text'
                         name='creditTerm'
                         label='Credit Term'
-                        placeholder='in month'
+                        placeholder='in months'
                     />
                     {
                         errors.creditTerm &&
-                        <span className={classes.error}>
+                        <Box component='span' className={classes.error}>
                             {errors.creditTerm.message}
-                        </span>
+                        </Box>
                     }
                 </Grid>
                 <Grid item xs={12} sm={9}>
@@ -88,28 +88,38 @@ export const CreditParameters = (): JSX.Element => {
                         voluntarily conclude an agreement with an insurance company
                         that meets the requirements of the Bank personal insurance
                         valid at the time of the conclusion of the Credit Agreement.
-                </Typography>
+                    </Typography>
                 </Grid>
                 <Grid container item spacing={1} xs={12} sm={3}>
                     <Grid item xs={12} sm={12}>
-                        <BlueCheckBox
-                            id='agree'
-                            label='Agree'
-                            checked={checkBoxState.agree}
-                            onChange={handleChange}
-                            name='agree'
-                            color='primary'
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={12}>
-                        <BlueCheckBox
-                            id='disagree'
-                            label='Disagree'
-                            checked={checkBoxState.disagree}
-                            onChange={handleChange}
-                            name='disagree'
-                            color='primary'
-                        />
+                        <FormControl component='fieldset'>
+                            <FormLabel component='legend' color='secondary'>
+                                Insurance Сonsent*
+                            </FormLabel>
+                            <RadioGroup
+                                {...register('insuranceСonsent', {
+                                    required: '⚠️ This field is required'
+                                })}
+                            >
+                                <RadioButton 
+                                    id='degree'
+                                    name='insuranceСonsent'
+                                    value='Agree'
+                                    label='Agree'
+                                />
+                                <RadioButton 
+                                    id='secondary'
+                                    name='insuranceСonsent'
+                                    value='Disagree'label='Disagree'
+                                />
+                            </RadioGroup>
+                            {
+                                errors.insuranceСonsent &&
+                                <Box component='span' className={classes.error}>
+                                    {errors.insuranceСonsent.message}
+                                </Box>
+                            }
+                        </FormControl>
                     </Grid>
                 </Grid >
                 <Grid item xs={12}>
