@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 type TChildrenProps = {
     children: React.ReactNode,
-    onSubmit: () => {} | void,
+    onSubmit: (event: React.BaseSyntheticEvent) => void,
 }
 
 const useStyles = makeStyles((theme) => ({

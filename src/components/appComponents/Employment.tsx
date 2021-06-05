@@ -2,16 +2,18 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { Grid, Box, Typography, FormLabel, FormControl, RadioGroup } from '@material-ui/core';
+import { Grid, Typography, FormLabel, FormControl, RadioGroup } from '@material-ui/core';
 import { Form } from '../customComponents/Form';
 import { RadioButton } from '../customComponents/RadioButton';
 import { CustomButton as NextButton } from '../customComponents/CustomButton';
-import { useStyles } from '../../App';
+import { CustomButton as BackButton } from '../customComponents/CustomButton';
+import { useGlobalStyles } from '../../App';
 import { setEmploymentActionCreator } from '../../redux';
 import { TEmploymentInputs } from '../../types';
+import { getRadioButtonContent } from '../utilities/getRadioButtonContent';
 
 export const Employment = (): JSX.Element => {
-    const classes = useStyles();
+    const classes = useGlobalStyles();
     const history = useHistory();
     const dispatch = useDispatch();
 
@@ -30,16 +32,10 @@ export const Employment = (): JSX.Element => {
         return;
     }
 
-    const totalWorkExperienceContent = [
-        { index: 0, name: 'totalWorkExperience', id: 'lessThanSixMonth', value: 'Less than 6 months', label: 'Less than 6 months' },
-        { index: 1, name: 'totalWorkExperience', id: 'fromSixMonthToOneYear', value: 'Less than 6 months', label: 'From 6 months to 1 year' },
-        { index: 2, name: 'totalWorkExperience', id: 'fromOneToThreeYears', value: 'From 1 to 3 years', label: 'From 1 to 3 years' },
-        { index: 3, name: 'totalWorkExperience', id: 'fromThreeToTenYears', value: 'From 3 to 10 years', label: 'From 3 to 10 years' },
-        { index: 4, name: 'totalWorkExperience', id: 'overTenYears', value: 'Over 10 years', label: 'Over 10 years' },
-    ];
+    const handleBackButton = (): void => {
+        history.goBack();
+    }
 
-    // TODO: add text instead lorem
-    // TODO: grid layout
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
             <Grid container item spacing={1} className={classes.container}>
@@ -69,28 +65,35 @@ export const Employment = (): JSX.Element => {
                                     required: '⚠️ This field is required'
                                 })}
                             >
-                                {totalWorkExperienceContent.map(({ id, name, value, label, index }) => (
-                                    <Grid item xs={12} sm={6} key={index}>
-                                        <RadioButton
-                                            id={id}
-                                            name={name}
-                                            value={value}
-                                            label={label}
-                                        />
-                                    </Grid>
-                                ))}
+                                {getRadioButtonContent('totalWorkExperience').map(
+                                    content => (
+                                        content ?
+                                            <Grid item xs={12} sm={6} key={content.index}>
+                                                <RadioButton
+                                                    id={content.id}
+                                                    name={content.name}
+                                                    value={content.value}
+                                                    label={content.label}
+                                                />
+                                            </Grid>
+                                        : null
+                                    )
+                                )}
                             </RadioGroup>
                             {
                                 errors.totalWorkExperience &&
-                                <Box component='span' className={classes.error}>
+                                <Typography className={classes.error}>
                                     {errors.totalWorkExperience.message}
-                                </Box>
+                                </Typography>
                             }
                         </FormControl>
                     </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                    <NextButton>Next</NextButton>
+                <Grid item xs={6}>
+                    <BackButton type='button' onClick={handleBackButton}>Back</BackButton>
+                </Grid>
+                <Grid item xs={6}>
+                    <NextButton type='submit'>Next</NextButton>
                 </Grid>
             </Grid>
         </Form >

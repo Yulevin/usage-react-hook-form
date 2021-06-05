@@ -7,12 +7,14 @@ import { Form } from '../customComponents/Form';
 import { Input } from '../customComponents/Input';
 import { RadioButton } from '../customComponents/RadioButton';
 import { CustomButton as NextButton } from '../customComponents/CustomButton';
-import { useStyles } from '../../App';
+import { CustomButton as BackButton } from '../customComponents/CustomButton';
+import { useGlobalStyles } from '../../App';
 import { TActualLocationAddressInputs } from '../../types';
 import { setActualLocationAddressActionCreator } from '../../redux';
+import { getRadioButtonContent } from '../utilities/getRadioButtonContent';
 
 export const ActualLocationAddress = (): JSX.Element => {
-    const classes = useStyles();
+    const classes = useGlobalStyles();
     const history = useHistory();
     const dispatch = useDispatch();
 
@@ -31,43 +33,9 @@ export const ActualLocationAddress = (): JSX.Element => {
         return;
     }
 
-    const livingTimeRegionContent = [
-        {
-            index: 0,
-            name: 'livingTimeRegion',
-            id: 'lessThanSixMonth',
-            value: 'Less than 6 months',
-            label: 'Less than 6 months',
-        },
-        {
-            index: 1,
-            name: 'livingTimeRegion',
-            id: 'fromSixToOneYear',
-            value: 'From 6 months to 1 year',
-            label: 'From 6 months to 1 year',
-        },
-        {
-            index: 2,
-            name: 'livingTimeRegion',
-            id: 'fromOneToThreeYears',
-            value: 'From 1 to 3 years',
-            label: 'From 1 to 3 years',
-        },
-        {
-            index: 3,
-            name: 'livingTimeRegion',
-            id: 'fromThreeToTenYears',
-            value: 'From 3 to 10 years',
-            label: 'From 3 to 10 years',
-        },
-        {
-            index: 4,
-            name: 'livingTimeRegion',
-            id: 'overTenYears',
-            value: 'Over 10 years',
-            label: 'Over 10 years',
-        },
-    ];
+    const handleBackButton = (): void => {
+        history.goBack();
+    }
 
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
@@ -159,22 +127,29 @@ export const ActualLocationAddress = (): JSX.Element => {
                     <Grid item xs={12} id='livingTimeRegionContent'>
                         <FormControl component='fieldset'>
                             <RadioGroup row {...register('livingTimeRegion')}>
-                                {livingTimeRegionContent.map(({ id, name, value, label, index }) => (
-                                    <Grid item xs={12} sm={4} key={index}>
-                                        <RadioButton
-                                            id={id}
-                                            name={name}
-                                            value={value}
-                                            label={label}
-                                        />
-                                    </Grid>
-                                ))}
+                                {getRadioButtonContent('livingTimeRegion').map(
+                                    content => (
+                                        content ?
+                                            <Grid item xs={12} sm={4} key={content.index}>
+                                                <RadioButton
+                                                    id={content.id}
+                                                    name={content.name}
+                                                    value={content.value}
+                                                    label={content.label}
+                                                />
+                                            </Grid>
+                                        : null
+                                    )
+                                )}
                             </RadioGroup>
                         </FormControl>
                     </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                    <NextButton>Next</NextButton>
+                <Grid item xs={6}>
+                    <BackButton type='button' onClick={handleBackButton}>Back</BackButton>
+                </Grid>
+                <Grid item xs={6}>
+                    <NextButton type='submit'>Next</NextButton>
                 </Grid>
             </Grid>
         </Form>

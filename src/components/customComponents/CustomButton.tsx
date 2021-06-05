@@ -4,7 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 type TChildrenProps = {
     children: React.ReactNode,
-    props?: React.ReactPropTypes,
+    type: string | any,
+    onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -13,13 +14,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export const CustomButton = ({ children, props }: TChildrenProps) => {
+export const CustomButton = ({children, ...props}: TChildrenProps) => {
     const classes = useStyles();
 
     return (
         <Button
             className={classes.root}
-            type='submit'
             variant='contained'
             color='primary'
             fullWidth

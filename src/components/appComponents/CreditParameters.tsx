@@ -2,17 +2,18 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { Grid, Typography, Box, FormControl, FormLabel, RadioGroup } from '@material-ui/core';
+import { Grid, Typography, FormControl, FormLabel, RadioGroup } from '@material-ui/core';
 import { Form } from '../customComponents/Form';
 import { Input } from '../customComponents/Input';
 import { RadioButton } from '../customComponents/RadioButton';
 import { CustomButton as NextButton } from '../customComponents/CustomButton';
-import { useStyles } from '../../App';
+import { CustomButton as BackButton } from '../customComponents/CustomButton';
+import { useGlobalStyles } from '../../App';
 import { TCreditParametersInputs } from '../../types';
 import { setCreditParametersActionCreator } from '../../redux';
 
 export const CreditParameters = (): JSX.Element => {
-    const classes = useStyles();
+    const classes = useGlobalStyles();
     const history = useHistory();
     const dispatch = useDispatch();
 
@@ -30,6 +31,11 @@ export const CreditParameters = (): JSX.Element => {
         history.push('/TotalPage');
         return;
     }
+
+    const handleBackButton = () => {
+        history.goBack();
+    }
+
     // TODO: Complete the required patterns
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
@@ -42,7 +48,15 @@ export const CreditParameters = (): JSX.Element => {
                 <Grid item xs={12} sm={6}>
                     <Input
                         {...register('creditSum', {
-                            required: 'This field is required'
+                            required: '⚠️ This field is required',
+                            pattern: {
+                                value: /^[1-9][0-9]?[0-9]?[0-9]?[0-9]?[0-9]?$/,
+                                message: '⚠️ Please enter a number only'
+                            },
+                            maxLength: {
+                                value: 6,
+                                message: '⚠️ Please enter no more 6 symbols'
+                            }
                         })}
                         id='creditSum'
                         type='text'
@@ -51,9 +65,9 @@ export const CreditParameters = (): JSX.Element => {
                     />
                     {
                         errors.creditSum &&
-                        <Box component='span' className={classes.error}>
+                        <Typography className={classes.error}>
                             {errors.creditSum.message}
-                        </Box>
+                        </Typography>
                     }
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -61,12 +75,12 @@ export const CreditParameters = (): JSX.Element => {
                         {...register('creditTerm', {
                             required: '⚠️ This field is required',
                             pattern: {
-                                value: /^[0-9]+$/,
+                                value: /^[1-9][0-9]?$/,
                                 message: '⚠️ This field is number only',
                             },
-                            max: {
+                            maxLength: {
                                 value: 2,
-                                message: '⚠️ No more than two characters',
+                                message: '⚠️ No more than two symbols',
                             }
                         })}
                         id='creditTerm'
@@ -77,9 +91,9 @@ export const CreditParameters = (): JSX.Element => {
                     />
                     {
                         errors.creditTerm &&
-                        <Box component='span' className={classes.error}>
+                        <Typography className={classes.error}>
                             {errors.creditTerm.message}
-                        </Box>
+                        </Typography>
                     }
                 </Grid>
                 <Grid item xs={12} sm={9}>
@@ -110,20 +124,24 @@ export const CreditParameters = (): JSX.Element => {
                                 <RadioButton 
                                     id='secondary'
                                     name='insuranceСonsent'
-                                    value='Disagree'label='Disagree'
+                                    value='Disagree'
+                                    label='Disagree'
                                 />
                             </RadioGroup>
                             {
                                 errors.insuranceСonsent &&
-                                <Box component='span' className={classes.error}>
+                                <Typography className={classes.error}>
                                     {errors.insuranceСonsent.message}
-                                </Box>
+                                </Typography>
                             }
                         </FormControl>
                     </Grid>
                 </Grid >
-                <Grid item xs={12}>
-                    <NextButton>Next</NextButton>
+                <Grid item xs={6}>
+                    <BackButton type='button' onClick={handleBackButton}>Back</BackButton>
+                </Grid>
+                <Grid item xs={6}>
+                    <NextButton type='submit'>Next</NextButton>
                 </Grid>
             </Grid >
         </Form>

@@ -2,17 +2,19 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { Grid, Typography, FormLabel, Box, FormControl, RadioGroup } from '@material-ui/core';
+import { Grid, Typography, FormLabel, FormControl, RadioGroup } from '@material-ui/core';
 import { Form } from '../customComponents/Form';
 import { Input } from '../customComponents/Input';
 import { RadioButton } from '../customComponents/RadioButton';
 import { CustomButton as NextButton } from '../customComponents/CustomButton';
-import { useStyles } from '../../App';
+import { CustomButton as BackButton } from '../customComponents/CustomButton';
+import { useGlobalStyles } from '../../App';
 import { TEducationStatusInputs } from '../../types';
 import { setEducationStatusActionCreator } from '../../redux';
+import { getRadioButtonContent } from '../utilities/getRadioButtonContent';
 
 export const EducationStatus = (): JSX.Element => {
-    const classes = useStyles();
+    const classes = useGlobalStyles();
     const history = useHistory();
     const dispatch = useDispatch();
 
@@ -31,25 +33,10 @@ export const EducationStatus = (): JSX.Element => {
         return;
     }
 
-    const educationStatusContent = [
-        { index: 0, name: 'educationStatus', id: 'degree', value: 'Degree/MBA', label: 'Degree/MBA' },
-        { index: 1, name: 'educationStatus', id: 'higher', value: 'Higher Education', label: 'Higher Education' },
-        { index: 2, name: 'educationStatus', id: 'secondHigher', value: 'Second Education', label: 'Second Education' },
-        { index: 3, name: 'educationStatus', id: 'incompleteHigher', value: 'Incomplete Higher', label: 'Incomplete Higher' },
-        { index: 4, name: 'educationStatus', id: 'specializedSecondary', value: 'Specialized Secondary', label: 'Specialized Secondary' },
-        { index: 5, name: 'educationStatus', id: 'secondary', value: 'Secondary', label: 'Secondary' },
-        { index: 6, name: 'educationStatus', id: 'lowerSecondary', value: 'Lower Secondary', label: 'Lower Secondary' },
-    ];
+    const handleBackButton = (): void => {
+        history.goBack();
+    }
 
-    const familyStatusContent = [
-        { index: 0, name: 'familyStatus', id: 'married', value: 'Married', label: 'Married' },
-        { index: 1, name: 'familyStatus', id: 'single', value: 'Single', label: 'Single' },
-        { index: 2, name: 'familyStatus', id: 'divorced', value: 'Divorced', label: 'Divorced' },
-        { index: 3, name: 'familyStatus', id: 'civilMarriage', value: 'Civil Marriage', label: 'Civil Marriage' },
-        { index: 4, name: 'familyStatus', id: 'other', value: 'Other', label: 'Other' },
-    ];
-
-    // TODO: Complete the required patterns
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
             <Grid container item spacing={1} className={classes.container}>
@@ -77,22 +64,26 @@ export const EducationStatus = (): JSX.Element => {
                                     required: '⚠️ This field is required'
                                 })}
                             >
-                                {educationStatusContent.map(({ id, name, value, label, index }) => (
-                                    <Grid item xs={12} sm={6} key={index}>
-                                        <RadioButton
-                                            id={id}
-                                            name={name}
-                                            value={value}
-                                            label={label}
-                                        />
-                                    </Grid>
-                                ))}
+                                {getRadioButtonContent('educationStatus').map(
+                                    (content) => (
+                                        content ?
+                                            <Grid item xs={12} sm={6} key={content.index}>
+                                                <RadioButton
+                                                    id={content.id}
+                                                    name={content.name}
+                                                    value={content.value}
+                                                    label={content.label}
+                                                />
+                                            </Grid>
+                                        : null
+                                    )
+                                )}
                             </RadioGroup>
                             {
                                 errors.educationStatus &&
-                                <Box component='span' className={classes.error}>
+                                <Typography className={classes.error}>
                                     {errors.educationStatus.message}
-                                </Box>
+                                </Typography>
                             }
                         </FormControl>
                     </Grid>
@@ -106,22 +97,26 @@ export const EducationStatus = (): JSX.Element => {
                                     required: '⚠️ This field is required'
                                 })}
                             >
-                                {familyStatusContent.map(({ id, name, value, label, index }) => (
-                                    <Grid item xs={12} sm={6} key={index}>
-                                        <RadioButton
-                                            id={id}
-                                            name={name}
-                                            value={value}
-                                            label={label}
-                                        />
-                                    </Grid>
-                                ))}
+                                {getRadioButtonContent('familyStatus').map(
+                                    content => (
+                                        content ?
+                                            <Grid item xs={12} sm={6} key={content.index}>
+                                                <RadioButton
+                                                    id={content.id}
+                                                    name={content.name}
+                                                    value={content.value}
+                                                    label={content.label}
+                                                />
+                                            </Grid>
+                                        : null
+                                    )
+                                )}
                             </RadioGroup>
                             {
                                 errors.familyStatus &&
-                                <Box component='span' className={classes.error}>
+                                <Typography className={classes.error}>
                                     {errors.familyStatus.message}
-                                </Box>
+                                </Typography>
                             }
                         </FormControl>
                     </Grid>
@@ -131,24 +126,27 @@ export const EducationStatus = (): JSX.Element => {
                         {...register('dependent', {
                             required: '⚠️ This field is required',
                             pattern: {
-                                value: /[0-9]/,
-                                message: '⚠️ This field is number only'
+                                value: /^[0-9][0-9]?[0-9]?$/,
+                                message: '⚠️ This field is no more 3 numbers'
                             }
                         })}
                         id='dependent'
                         name='dependent'
                         type='text'
-                        label='How many dependents do you support?'
+                        label='How many dependents do you support?*'
                     />
                     {
                         errors.dependent &&
-                        <Box component='span' className={classes.error}>
+                        <Typography className={classes.error}>
                             {errors.dependent.message}
-                        </Box>
+                        </Typography>
                     }
                 </Grid>
-                <Grid item xs={12}>
-                    <NextButton>Next</NextButton>
+                <Grid item xs={6}>
+                    <BackButton type='button' onClick={handleBackButton}>Back</BackButton>
+                </Grid>
+                <Grid item xs={6}>
+                    <NextButton type='submit'>Next</NextButton>
                 </Grid>
             </Grid>
         </Form>

@@ -21,7 +21,7 @@ enum palleteEnum {
     colorWrapper = 'rgba(82, 86, 89, .1)',
 };
 
-export const useStyles = makeStyles(() =>
+export const useGlobalStyles = makeStyles(() =>
     createStyles({
         container: {
             margin: 'auto',
@@ -36,8 +36,12 @@ export const useStyles = makeStyles(() =>
             color: `${palleteEnum.colorComment}`,
         },
         error: {
+            textAlign: 'center',
             color: 'maroon',
             fontWeight: 'bold',
+        },
+        totalContainer: {
+            border: `1px solid ${palleteEnum.colorWrapper}`,
         },
     }),
 );

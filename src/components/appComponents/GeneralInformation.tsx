@@ -2,17 +2,17 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Typography, Grid, Box, FormControl, FormLabel, RadioGroup } from '@material-ui/core';
+import { Typography, Grid, FormControl, FormLabel, RadioGroup } from '@material-ui/core';
 import { Form } from '../customComponents/Form';
 import { Input } from '../customComponents/Input';
 import { CustomButton as NextButton } from '../customComponents/CustomButton';
 import { RadioButton } from '../customComponents/RadioButton';
-import { useStyles } from '../../App';
+import { useGlobalStyles } from '../../App';
 import { TGeneralInformationInputs } from '../../types'
 import { setGeneralInformationActionCreator } from '../../redux';
 
 export const GeneralInformation = (): JSX.Element => {
-    const classes = useStyles();
+    const classes = useGlobalStyles();
     const history = useHistory();
     const dispatch = useDispatch();
 
@@ -30,8 +30,7 @@ export const GeneralInformation = (): JSX.Element => {
         history.push('/Contacts');
         return;
     }
-    // TODO: Fix the container
-    // TODO: Complete the required patterns
+
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
             <Grid container item className={classes.container}>
@@ -40,7 +39,6 @@ export const GeneralInformation = (): JSX.Element => {
                         General Information
                     </Typography>
                 </Grid>
-                {/*General Information Content*/}
                 <Grid container item xs={12} id='generalInformationContainer'>
                     <Grid item xs={12} id='generalInformationContent'>
                         <Input
@@ -48,7 +46,7 @@ export const GeneralInformation = (): JSX.Element => {
                                 required: '⚠️ This field is required',
                                 pattern: {
                                     value: /^([а-яё\s]+|[a-z\s]+)$/iu,
-                                    message: 'This input is letter only'
+                                    message: '⚠️ This field is letters only'
                                 }
                             })}
                             id='fullName'
@@ -58,9 +56,9 @@ export const GeneralInformation = (): JSX.Element => {
                         />
                         {
                             errors.fullName &&
-                            <Box component='span' className={classes.error}>
+                            <Typography className={classes.error}>
                                 {errors.fullName.message}
-                            </Box>
+                            </Typography>
                         }
                     </Grid>
                     <Grid item xs={12}>
@@ -80,7 +78,7 @@ export const GeneralInformation = (): JSX.Element => {
                         <FormControl component='fieldset'>
                             <RadioGroup
                                 {...register('gender', {
-                                    required: '⚠️ This field is required'
+                                    required: '⚠️ This field is required',
                                 })}
                             >
                                 <RadioButton
@@ -98,9 +96,9 @@ export const GeneralInformation = (): JSX.Element => {
                             </RadioGroup>
                             {
                                 errors.gender &&
-                                <Box component='span' className={classes.error}>
+                                <Typography className={classes.error}>
                                     {errors.gender.message}
-                                </Box>
+                                </Typography>
                             }
                         </FormControl>
                     </Grid>
@@ -127,28 +125,32 @@ export const GeneralInformation = (): JSX.Element => {
                             </RadioGroup>
                             {
                                 errors.citizenship &&
-                                <Box component='span' className={classes.error}>
+                                <Typography className={classes.error}>
                                     {errors.citizenship.message}
-                                </Box>
+                                </Typography>
                             }
                         </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={4}>
-                        <FormLabel component='label'>Date of Birth*</FormLabel>
+                        <FormLabel component='label'>Date of birth*</FormLabel>
                         <Input
                             {...register('birthDay', {
-                                required: '⚠️ This field is required'
+                                required: '⚠️ This field is required',
+                                pattern: {
+                                    value: /^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/,
+                                    message: '⚠️ Please enter the correct date format',
+                                }
                             })}
                             id='birthDay'
                             name='birthDay'
                             type='text'
-                            label='DD.MM.YYYY'
+                            label='DD/MM/YYYY'
                         />
                         {
                             errors.birthDay &&
-                            <Box component='span' className={classes.error}>
+                            <Typography className={classes.error}>
                                 {errors.birthDay.message}
-                            </Box>
+                            </Typography>
                         }
                     </Grid>
                     <Grid item xs={12}>
@@ -160,7 +162,7 @@ export const GeneralInformation = (): JSX.Element => {
                             label='Place of Birth'
                         />
                     </Grid>
-                    <Grid item xs={12} sm={8} id='generalInformationText'>
+                    <Grid item xs={12} sm={8}>
                         <Typography paragraph>
                             Lorem ipsum dolor sit amet consectetur adipisicing elit.
                             Quam excepturi cumque sit, quibusdam itaque tempore,
@@ -170,7 +172,12 @@ export const GeneralInformation = (): JSX.Element => {
                     </Grid>
                     <Grid item xs={12} sm={4}>
                         <FormControl component='fieldset'>
-                            <RadioGroup {...register('bankruptcy')}>
+                            <FormLabel component='legend'>Bankruptcy*</FormLabel>
+                            <RadioGroup 
+                                {...register('bankruptcy', {
+                                    required: '⚠️ This field is required',
+                                })}
+                            >
                                 <RadioButton
                                     id='Yes'
                                     name='bankruptcy'
@@ -183,64 +190,81 @@ export const GeneralInformation = (): JSX.Element => {
                                     value='No'
                                     label='No'
                                 />
+                                {
+                                    errors.bankruptcy &&
+                                    <Typography className={classes.error}>
+                                        {errors.bankruptcy.message}
+                                    </Typography>
+                                }
                             </RadioGroup>
                         </FormControl>
                     </Grid>
                 </Grid>
-                {/*Passport Content*/}
                 <Grid container item spacing={1} xs={12}>
                     <Grid item xs={12} sm={4}>
                         <FormLabel component='label'>Passport*</FormLabel>
                         <Input
                             {...register('passport', {
-                                required: '⚠️ This field is required'
+                                required: '⚠️ This field is required',
+                                pattern: {
+                                    value: /^([0-9][0-9][0-9][0-9])[/]([0-9][0-9][0-9][0-9][0-9][0-9])$/,
+                                    message: '⚠️ Please enter the correct passport format',
+                                }
                             })}
                             id='passport'
                             name='passport'
                             type='text'
-                            label='SSSS NNNNNN'
+                            label='SSSS/NNNNNN'
                         />
                         {
                             errors.passport &&
-                            <Box component='span' className={classes.error}>
+                            <Typography className={classes.error}>
                                 {errors.passport.message}
-                            </Box>
+                            </Typography>
                         }
                     </Grid>
                     <Grid item xs={12} sm={4}>
-                        <FormLabel component='label'>Department Code*</FormLabel>
+                        <FormLabel component='label'>Department code*</FormLabel>
                         <Input
                             {...register('codeDepartment', {
-                                required: '⚠️ This field is required'
+                                required: '⚠️ This field is required',
+                                pattern: {
+                                    value: /^([0-9][0-9][0-9])[/]([0-9][0-9][0-9])$/,
+                                    message: '⚠️ Please enter the correct code format'
+                                }
                             })}
                             id='codeDepartment'
                             name='codeDepartment'
                             type='text'
-                            label='NNN-NNN'
+                            label='NNN/NNN'
                         />
                         {
                             errors.codeDepartment &&
-                            <Box component='span' className={classes.error}>
+                            <Typography className={classes.error}>
                                 {errors.codeDepartment.message}
-                            </Box>
+                            </Typography>
                         }
                     </Grid>
                     <Grid item xs={12} sm={4}>
-                        <FormLabel component='label'>Date Of Issue*</FormLabel>
+                        <FormLabel component='label'>Date of issue*</FormLabel>
                         <Input
                             {...register('dateOfPassport', {
-                                required: '⚠️ This field is required'
+                                required: '⚠️ This field is required',
+                                pattern: {
+                                    value: /^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/,
+                                    message: '⚠️ Please enter the correct date format'
+                                }
                             })}
                             id='dateOfPassport'
                             name='dateOfPassport'
                             type='text'
-                            label='DD.MM.YYYY'
+                            label='DD/MM/YYYY'
                         />
                         {
                             errors.dateOfPassport &&
-                            <Box component='span' className={classes.error}>
+                            <Typography className={classes.error}>
                                 {errors.dateOfPassport.message}
-                            </Box>
+                            </Typography>
                         }
                     </Grid>
                 </Grid>
@@ -252,17 +276,17 @@ export const GeneralInformation = (): JSX.Element => {
                         id='issuingAuthority'
                         name='issuingAuthority'
                         type='text'
-                        label='Issuing Authority'
+                        label='Issuing authority*'
                     />
                     {
                         errors.issuingAuthority &&
-                        <Box component='span' className={classes.error}>
+                        <Typography className={classes.error}>
                             {errors.issuingAuthority.message}
-                        </Box>
+                        </Typography>
                     }
                 </Grid>
                 <Grid item xs={12}>
-                    <NextButton>Next</NextButton>
+                    <NextButton type='submit'>Next</NextButton>
                 </Grid>
             </Grid>
         </Form>

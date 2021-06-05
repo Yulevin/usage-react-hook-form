@@ -3,15 +3,16 @@ import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Form } from '../customComponents/Form';
-import { Grid, Typography, Box } from '@material-ui/core';
+import { Grid, Typography, FormLabel } from '@material-ui/core';
 import { Input } from '../customComponents/Input';
 import { CustomButton as NextButton } from '../customComponents/CustomButton';
-import { useStyles } from '../../App';
+import { CustomButton as BackButton } from '../customComponents/CustomButton';
+import { useGlobalStyles } from '../../App';
 import { TRegistrationAddressInputs } from '../../types';
 import { setRegistrationAddressActionCreator } from '../../redux';
 
 export const RegistrationAddress = (): JSX.Element => {
-    const classes = useStyles();
+    const classes = useGlobalStyles();
     const history = useHistory();
     const dispatch = useDispatch();
 
@@ -28,6 +29,10 @@ export const RegistrationAddress = (): JSX.Element => {
         return;
     }
 
+    const handleBackButton = (): void => {
+        history.goBack();
+    }
+
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
             <Grid container item spacing={1} className={classes.container}>
@@ -37,119 +42,141 @@ export const RegistrationAddress = (): JSX.Element => {
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6}>
+                    <FormLabel component='legend' color='secondary'>
+                        Post code*
+                    </FormLabel>
                     <Input
                         {...register('postCode', {
-                            required: 'This field is required'
+                            required: '⚠️ This field is required',
+                            pattern: {
+                                value: /^([0-9][0-9][0-9])[/]([0-9][0-9][0-9])$/,
+                                message: '⚠️ Please enter the correct post code format',
+                            },
                         })}
                         id='postCode'
                         type='text'
-                        label='Post Code*'
+                        label='NNN/NNN'
                     />
                     {
                         errors.postCode &&
-                        <Box component='span' className={classes.error}>
+                        <Typography className={classes.error}>
                             {errors.postCode.message}
-                        </Box>
+                        </Typography>
                     }
                 </Grid>
                 <Grid item xs={12} sm={6}>
+                    <FormLabel component='legend' color='secondary'>
+                        Region*
+                    </FormLabel>
                     <Input
                         {...register('region', {
-                            required: 'This field is required'
+                            required: '⚠️ This field is required'
                         })}
                         id='region'
                         type='text'
-                        label='Region*'
                     />
                     {
                         errors.region &&
-                        <Box component='span' className={classes.error}>
+                        <Typography className={classes.error}>
                             {errors.region.message}
-                        </Box>
+                        </Typography>
                     }
                 </Grid>
                 <Grid item xs={12}>
+                    <FormLabel component='legend' color='secondary'>
+                        City*
+                    </FormLabel>
                     <Input
                         {...register('city', {
-                            required: 'This field is required'
+                            required: '⚠️ This field is required'
                         })}
                         id='city'
                         type='text'
-                        label='City*'
                     />
                     {
                         errors.city &&
-                        <Box component='span' className={classes.error}>
+                        <Typography className={classes.error}>
                             {errors.city.message}
-                        </Box>
+                        </Typography>
                     }
                 </Grid>
                 <Grid item xs={12}>
+                    <FormLabel component='legend' color='secondary'>
+                        Street*
+                    </FormLabel>
                     <Input
                         {...register('street', {
-                            required: 'This field is required'
+                            required: '⚠️ This field is required'
                         })}
                         id='street'
                         type='text'
-                        label='Street*'
                     />
                     {
                         errors.street &&
-                        <Box component='span' className={classes.error}>
+                        <Typography className={classes.error}>
                             {errors.street.message}
-                        </Box>
+                        </Typography>
                     }
                 </Grid>
                 <Grid item xs={12} sm={4}>
+                    <FormLabel component='legend' color='secondary'>
+                        House Number*
+                    </FormLabel>
                     <Input
                         {...register('houseNumber', {
-                            required: 'This field is required'
+                            required: '⚠️ This field is required',
+                            pattern: {
+                                value: /^[0-9][0-9]?[0-9]?$/,
+                                message: '⚠️ This field is no more 3 numbers'
+                            }
                         })}
                         id='houseNumber'
                         type='text'
-                        label='House Number*'
                     />
                     {
                         errors.houseNumber &&
-                        <Box component='span' className={classes.error}>
+                        <Typography className={classes.error}>
                             {errors.houseNumber.message}
-                        </Box>
+                        </Typography>
                     }
                 </Grid>
                 <Grid item xs={12} sm={4}>
+                    <FormLabel component='legend' color='secondary'>
+                        Building
+                    </FormLabel>
                     <Input
-                        {...register('houseBuilding', {
-                            required: 'This field is required'
-                        })}
+                        {...register('houseBuilding')}
                         id='houseBuilding'
                         type='text'
-                        label='House Building*'
                     />
-                    {
-                        errors.houseBuilding &&
-                        <Box component='span' className={classes.error}>
-                            {errors.houseBuilding.message}
-                        </Box>
-                    }
                 </Grid>
                 <Grid item xs={12} sm={4}>
+                    <FormLabel component='legend' color='secondary'>
+                        Apartment*
+                    </FormLabel>
                     <Input
                         {...register('apartment', {
-                            required: 'This field is required'
+                            required: '⚠️ This field is required',
+                            pattern: {
+                                value: /^[0-9][0-9]?[0-9]?[0-9]?[0-9]?$/,
+                                message: '⚠️ This field is no more 5 symbols and numbers only',
+                            }
                         })}
                         id='apartment'
                         type='text'
-                        label='Apartment*'
                     />
                     {
                         errors.apartment &&
-                        <Box component='span' className={classes.error}>
+                        <Typography className={classes.error}>
                             {errors.apartment.message}
-                        </Box>
+                        </Typography>
                     }
                 </Grid>
-                <Grid item xs={12}>
-                    <NextButton>Next</NextButton>
+                <Grid item xs={6}>
+                    <BackButton type='button' onClick={handleBackButton}>Back</BackButton>
+                </Grid>
+                <Grid item xs={6}>
+                    <NextButton type='submit'>Next</NextButton>
                 </Grid>
             </Grid>
         </Form>

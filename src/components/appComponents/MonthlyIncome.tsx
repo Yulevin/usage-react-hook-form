@@ -2,16 +2,17 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { Grid, Typography, Box } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { Form } from '../customComponents/Form';
 import { Input } from '../customComponents/Input';
 import { CustomButton as NextButton } from '../customComponents/CustomButton';
-import { useStyles } from '../../App';
+import { CustomButton as BackButton } from '../customComponents/CustomButton';
+import { useGlobalStyles } from '../../App';
 import { TMonthlyIncomeInputs } from '../../types';
 import { setMonthlyIncomeActionCreator } from '../../redux';
 
 export const MonthlyIncome = (): JSX.Element => {
-    const classes = useStyles();
+    const classes = useGlobalStyles();
     const history = useHistory();
     const dispatch = useDispatch();
 
@@ -28,6 +29,10 @@ export const MonthlyIncome = (): JSX.Element => {
         return;
     }
 
+    const handleBackButton = (): void => {
+        history.goBack();
+    }
+
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
             <Grid container item spacing={1} className={classes.container}>
@@ -36,21 +41,33 @@ export const MonthlyIncome = (): JSX.Element => {
                         Monthly Income
                 </Typography>
                 </Grid>
+                <Grid item xs={12}>
+                    <Typography>
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                        Voluptas nesciunt accusantium perferendis rem illum inventore
+                        voluptatibus ex asperiores facilis consequatur velit, eligendi,
+                        saepe quam ipsam adipisci dolorem impedit tempore iure!
+                    </Typography>
+                </Grid>
                 <Grid item xs={6}>
                     <Input
                         {...register('income', {
-                            required: 'This field is required'
+                            required: '⚠️ This field is required',
+                            pattern: {
+                                value: /^\d+([kw])?\+?$/,
+                                message: '⚠️ Please enter the number',
+                            }
                         })}
                         id='income'
                         type='text'
-                        label='Income at the main place of work'
                         name='income'
+                        label='Income at the main place of work*'
                     />
                     {
                         errors.income &&
-                        <Box component='span' className={classes.error}>
+                        <Typography className={classes.error}>
                             {errors.income.message}
-                        </Box>
+                        </Typography>
                     }
                 </Grid>
                 <Grid item xs={6}>
@@ -80,8 +97,11 @@ export const MonthlyIncome = (): JSX.Element => {
                         name='otherIncome'
                     />
                 </Grid>
-                <Grid item xs={12}>
-                    <NextButton>Next</NextButton>
+                <Grid item xs={6}>
+                    <BackButton type='button' onClick={handleBackButton}>Back</BackButton>
+                </Grid>
+                <Grid item xs={6}>
+                    <NextButton type='submit'>Next</NextButton>
                 </Grid>
             </Grid>
         </Form>

@@ -2,17 +2,19 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { Grid, Box, Typography, FormLabel, FormControl, RadioGroup } from '@material-ui/core';
+import { Grid, Typography, FormLabel, FormControl, RadioGroup } from '@material-ui/core';
 import { Form } from '../customComponents/Form';
 import { Input } from '../customComponents/Input';
 import { RadioButton } from '../customComponents/RadioButton';
 import { CustomButton as NextButton } from '../customComponents/CustomButton';
-import { useStyles } from '../../App';
+import { CustomButton as BackButton } from '../customComponents/CustomButton';
+import { useGlobalStyles } from '../../App';
 import { TMainPlaceOfWorkInputs } from '../../types';
 import { setMainPlaceOfWorkActionCreator } from '../../redux';
+import { getRadioButtonContent } from '../utilities/getRadioButtonContent';
 
 export const MainPlaceOfWork = (): JSX.Element => {
-    const classes = useStyles();
+    const classes = useGlobalStyles();
     const history = useHistory();
     const dispatch = useDispatch();
 
@@ -31,47 +33,9 @@ export const MainPlaceOfWork = (): JSX.Element => {
         return;
     }
 
-    const typeOwnershipContent = [
-        { index: '0', name: 'typeOwnership', id: 'privateEnterprise', value: 'Private Enterprise', label: 'Private Enterprise' },
-        { index: '1', name: 'typeOwnership', id: 'state', value: 'State', label: 'State' },
-        { index: '2', name: 'typeOwnership', id: 'individual', value: 'Individual', label: 'Individual' },
-    ];
-
-    const typeOfActivitiesContent = [
-        { index: 0, name: 'typeActivities', id: 'production', value: 'Production', label: 'Production' },
-        { index: 1, name: 'typeActivities', id: 'trade', value: 'Trade', label: 'Trade' },
-        { index: 2, name: 'typeActivities', id: 'services', value: 'Services', label: 'Services' },
-        { index: 3, name: 'typeActivities', id: 'it', value: 'IT', label: 'IT' },
-        { index: 4, name: 'typeActivities', id: 'culture', value: 'Culture', label: 'Culture' },
-        { index: 5, name: 'typeActivities', id: 'militaryForces', value: 'Military Forces', label: 'Military Forces' },
-        { index: 6, name: 'typeActivities', id: 'transport', value: 'Transport', label: 'Transport' },
-        { index: 7, name: 'typeActivities', id: 'building', value: 'Building', label: 'Building' },
-        { index: 8, name: 'typeActivities', id: 'agriculture', value: 'Agriculture', label: 'Agriculture' },
-        { index: 9, name: 'typeActivities', id: 'education', value: 'Education', label: 'Education' },
-        { index: 10, name: 'typeActivities', id: 'medecine', value: 'Medecine', label: 'Medecine' },
-        { index: 11, name: 'typeActivities', id: 'science', value: 'Science', label: 'Science' },
-        { index: 12, name: 'typeActivities', id: 'lawEnforcement', value: 'Law Enforcement', label: 'Law Enforcement' },
-        { index: 13, name: 'typeActivities', id: 'privateSecurity', value: 'Private Security', label: 'Private Security' },
-        { index: 14, name: 'typeActivities', id: 'jurisprudence', value: 'Jurisprudence', label: 'Jurisprudence' },
-        { index: 15, name: 'typeActivities', id: 'finance', value: 'Finance', label: 'Finance' },
-        { index: 16, name: 'typeActivities', id: 'other', value: 'Other', label: 'Other' },
-    ];
-
-    const typePositionHeldContent = [
-        { index: 0, name: 'typePositionHeld', id: 'organizationLeadership', value: 'Organization Leadership', label: 'Organization Leadership' },
-        { index: 1, name: 'typePositionHeld', id: 'departmentManagement', value: 'Department Management', label: 'Department Management' },
-        { index: 2, name: 'typePositionHeld', id: 'selfEmployed', value: 'Self Employed', label: 'Self Employed' },
-        { index: 3, name: 'typePositionHeld', id: 'specialist', value: 'Specialist', label: 'Specialist' },
-    ];
-
-    const workExperiencePositionHeldContent = [
-        { index: 0, name: 'workExperiencePositionHeld', id: 'lessThanFourMonth', value: 'Less than 4 months', label: 'Less than 4 months' },
-        { index: 1, name: 'workExperiencePositionHeld', id: 'fromFourToSixMonth', value: 'From 4 to 6 months', label: 'From 4 to 6 months' },
-        { index: 2, name: 'workExperiencePositionHeld', id: 'fromSixToOneYear', value: 'From 6 months to one year', label: 'From 6 months to 1 year' },
-        { index: 3, name: 'workExperiencePositionHeld', id: 'fromOneToThreeYears', value: 'From 1 to 3 years', label: 'From 1 to 3 years' },
-        { index: 4, name: 'workExperiencePositionHeld', id: 'fromThreeToTenYears', value: 'From 3 to 10 years', label: 'From 3 to 10 years' },
-        { index: 5, name: 'workExperiencePositionHeld', id: 'overTenYears', value: 'Over 10 years', label: 'Over 10 years' },
-    ];
+    const handleBackButton = () => {
+        history.goBack();
+    }
 
     // TODO: Complete the required patterns
     return (
@@ -86,7 +50,7 @@ export const MainPlaceOfWork = (): JSX.Element => {
                     <Grid item xs={12}>
                         <Input
                             {...register('organizationName', {
-                                required: 'This field is required'
+                                required: '⚠️ This field is required'
                             })}
                             id='organizationName'
                             type='text'
@@ -95,15 +59,15 @@ export const MainPlaceOfWork = (): JSX.Element => {
                         />
                         {
                             errors.organizationName &&
-                            <Box component='span' className={classes.error}>
+                            <Typography className={classes.error}>
                                 {errors.organizationName.message}
-                            </Box>
+                            </Typography>
                         }
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <Input
                             {...register('taxNumber', {
-                                required: 'This field is required',
+                                required: '⚠️ This field is required',
                             })}
                             id='taxNumber'
                             type='text'
@@ -112,9 +76,9 @@ export const MainPlaceOfWork = (): JSX.Element => {
                         />
                         {
                             errors.taxNumber &&
-                            <Box component='span' className={classes.error}>
+                            <Typography className={classes.error}>
                                 {errors.taxNumber.message}
-                            </Box>
+                            </Typography>
                         }
                     </Grid>
                     <Grid item xs={12} sm={6}>
@@ -129,7 +93,7 @@ export const MainPlaceOfWork = (): JSX.Element => {
                     <Grid item xs={12}>
                         <Input
                             {...register('workPhone', {
-                                required: 'This field is required'
+                                required: '⚠️ This field is required'
                             })}
                             id='workPhone'
                             name='workPhone'
@@ -146,7 +110,7 @@ export const MainPlaceOfWork = (): JSX.Element => {
                     <Grid item xs={12}>
                         <Input
                             {...register('workAddress', {
-                                required: 'This field is required'
+                                required: '⚠️ This field is required'
                             })}
                             id='workAdress'
                             name='workAddress'
@@ -181,21 +145,25 @@ export const MainPlaceOfWork = (): JSX.Element => {
                                     required: '⚠️ This field is required'
                                 })}
                             >
-                                {typeOwnershipContent.map(({ id, name, value, label, index }) => (
-                                    <RadioButton
-                                        key={index}
-                                        id={id}
-                                        name={name}
-                                        value={value}
-                                        label={label}
-                                    />
-                                ))}
+                                {getRadioButtonContent('typeOwnership').map(
+                                    content => (
+                                        content ?
+                                            <RadioButton
+                                                key={content.index}
+                                                id={content.id}
+                                                name={content.name}
+                                                value={content.value}
+                                                label={content.label}
+                                            />
+                                        : null
+                                    )
+                                )}
                             </RadioGroup>
                             {
                                 errors.typeOwnership &&
-                                <Box component='span' className={classes.error}>
+                                <Typography className={classes.error}>
                                     {errors.typeOwnership.message}
-                                </Box>
+                                </Typography>
                             }
                         </FormControl>
                     </Grid>
@@ -211,22 +179,26 @@ export const MainPlaceOfWork = (): JSX.Element => {
                                     required: '⚠️ This field is required'
                                 })}
                             >
-                                {typeOfActivitiesContent.map(({ id, name, value, label, index }) => (
-                                    <Grid item xs={12} sm={4} key={index}>
-                                        <RadioButton
-                                            id={id}
-                                            name={name}
-                                            value={value}
-                                            label={label}
-                                        />
-                                    </Grid>
-                                ))}
+                                {getRadioButtonContent('typeActivities').map(
+                                    content => (
+                                        content ?
+                                            <Grid item xs={12} sm={4} key={content.index}>
+                                                <RadioButton
+                                                    id={content.id}
+                                                    name={content.name}
+                                                    value={content.value}
+                                                    label={content.label}
+                                                />
+                                            </Grid>
+                                        : null
+                                    )
+                                )}
                             </RadioGroup>
                             {
                                 errors.typeActivities &&
-                                <Box component='span' className={classes.error}>
+                                <Typography className={classes.error}>
                                     {errors.typeActivities.message}
-                                </Box>
+                                </Typography>
                             }
                         </FormControl>
                     </Grid>
@@ -244,22 +216,26 @@ export const MainPlaceOfWork = (): JSX.Element => {
                                     required: '⚠️ This field is required'
                                 })}
                             >
-                                {typePositionHeldContent.map(({ id, name, value, label, index }) => (
-                                    <Grid item xs={12} sm={6} key={index}>
-                                        <RadioButton
-                                            id={id}
-                                            name={name}
-                                            value={value}
-                                            label={label}
-                                        />
-                                    </Grid>
-                                ))}
+                                {getRadioButtonContent('typePositionHeld').map(
+                                    content => (
+                                        content ?
+                                            <Grid item xs={12} sm={6} key={content.index}>
+                                                <RadioButton
+                                                    id={content.id}
+                                                    name={content.name}
+                                                    value={content.value}
+                                                    label={content.label}
+                                                />
+                                            </Grid>
+                                        : null
+                                    )
+                                )}
                             </RadioGroup>
                             {
                                 errors.typePositionHeld &&
-                                <Box component='span' className={classes.error}>
+                                <Typography className={classes.error}>
                                     {errors.typePositionHeld.message}
-                                </Box>
+                                </Typography>
                             }
                         </FormControl>
                     </Grid>
@@ -277,28 +253,35 @@ export const MainPlaceOfWork = (): JSX.Element => {
                                     required: '⚠️ This field is required'
                                 })}
                             >
-                                {workExperiencePositionHeldContent.map(({ id, name, value, label, index }) => (
-                                    <Grid item xs={12} sm={6} key={index}>
-                                        <RadioButton
-                                            id={id}
-                                            name={name}
-                                            value={value}
-                                            label={label}
-                                        />
-                                    </Grid>
-                                ))}
+                                {getRadioButtonContent('workExperiencePositionHeld').map(
+                                    content => (
+                                        content ?
+                                            <Grid item xs={12} sm={6} key={content.index}>
+                                                <RadioButton
+                                                    id={content.id}
+                                                    name={content.name}
+                                                    value={content.value}
+                                                    label={content.label}
+                                                />
+                                            </Grid>
+                                        : null
+                                    )
+                                )}
                             </RadioGroup>
                             {
                                 errors.workExperiencePositionHeld &&
-                                <Box component='span' className={classes.error}>
+                                <Typography className={classes.error}>
                                     {errors.workExperiencePositionHeld.message}
-                                </Box>
+                                </Typography>
                             }
                         </FormControl>
                     </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                    <NextButton>Next</NextButton>
+                <Grid item xs={6}>
+                    <BackButton type='button' onClick={handleBackButton}>Back</BackButton>
+                </Grid>
+                <Grid item xs={6}>
+                    <NextButton type='submit'>Next</NextButton>
                 </Grid>
             </Grid>
         </Form>
