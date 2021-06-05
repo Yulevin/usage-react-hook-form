@@ -37,7 +37,6 @@ export const MainPlaceOfWork = (): JSX.Element => {
         history.goBack();
     }
 
-    // TODO: Complete the required patterns
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
             <Grid container item spacing={1} className={classes.container}>
@@ -102,9 +101,9 @@ export const MainPlaceOfWork = (): JSX.Element => {
                         />
                         {
                             errors.workPhone &&
-                            <span className={classes.error}>
+                            <Typography className={classes.error}>
                                 {errors.workPhone.message}
-                            </span>
+                            </Typography>
                         }
                     </Grid>
                     <Grid item xs={12}>
@@ -119,9 +118,9 @@ export const MainPlaceOfWork = (): JSX.Element => {
                         />
                         {
                             errors.workAddress &&
-                            <span className={classes.error}>
+                            <Typography className={classes.error}>
                                 {errors.workAddress.message}
-                            </span>
+                            </Typography>
                         }
                     </Grid>
                     <Grid item xs={12}>

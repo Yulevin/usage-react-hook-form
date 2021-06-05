@@ -36,7 +36,6 @@ export const CreditParameters = (): JSX.Element => {
         history.goBack();
     }
 
-    // TODO: Complete the required patterns
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
             <Grid container item spacing={1} className={classes.container}>
