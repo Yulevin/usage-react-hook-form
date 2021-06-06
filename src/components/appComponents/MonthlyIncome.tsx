@@ -76,7 +76,7 @@ export const MonthlyIncome = (): JSX.Element => {
                         {...register('addIncome')}
                         id='addIncome'
                         type='text'
-                        label='Additional Income'
+                        label='Additional income'
                         name='addIncome'
                     />
                 </Grid>
@@ -94,7 +94,7 @@ export const MonthlyIncome = (): JSX.Element => {
                         {...register('otherIncome')}
                         id='otherIncome'
                         type='text'
-                        label='Other Income'
+                        label='Other income'
                         name='otherIncome'
                     />
                 </Grid>

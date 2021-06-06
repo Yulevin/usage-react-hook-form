@@ -61,7 +61,7 @@ export const CreditParameters = (): JSX.Element => {
                         id='creditSum'
                         type='text'
                         name='creditSum'
-                        label='Credit Sum'
+                        label='Credit sum'
                     />
                     {
                         errors.creditSum &&
@@ -86,7 +86,7 @@ export const CreditParameters = (): JSX.Element => {
                         id='creditTerm'
                         type='text'
                         name='creditTerm'
-                        label='Credit Term'
+                        label='Credit term'
                         placeholder='in months'
                     />
                     {
@@ -108,7 +108,7 @@ export const CreditParameters = (): JSX.Element => {
                     <Grid item xs={12} sm={12}>
                         <FormControl component='fieldset'>
                             <FormLabel component='legend' color='secondary'>
-                                Insurance Сonsent*
+                                Insurance consent*
                             </FormLabel>
                             <RadioGroup
                                 {...register('insuranceСonsent', {

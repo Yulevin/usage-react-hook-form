@@ -159,7 +159,7 @@ export const GeneralInformation = (): JSX.Element => {
                             id='placeOfBirth'
                             name='placeOfBirth'
                             type='text'
-                            label='Place of Birth'
+                            label='Place of birth'
                         />
                     </Grid>
                     <Grid item xs={12} sm={8}>

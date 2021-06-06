@@ -55,7 +55,7 @@ export const MainPlaceOfWork = (): JSX.Element => {
                             id='organizationName'
                             type='text'
                             name='organizationName'
-                            label='Name of Organization*'
+                            label='Name of organization*'
                         />
                         {
                             errors.organizationName &&
@@ -72,7 +72,7 @@ export const MainPlaceOfWork = (): JSX.Element => {
                             id='taxNumber'
                             type='text'
                             name='taxNumber'
-                            label='Tax Number*'
+                            label='Tax number*'
                         />
                         {
                             errors.taxNumber &&
@@ -87,7 +87,7 @@ export const MainPlaceOfWork = (): JSX.Element => {
                             id='webSite'
                             name='webSite'
                             type='text'
-                            label='Web Site'
+                            label='Web site'
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -98,7 +98,7 @@ export const MainPlaceOfWork = (): JSX.Element => {
                             id='workPhone'
                             name='workPhone'
                             type='text'
-                            label='Work Phone*'
+                            label='Work phone*'
                         />
                         {
                             errors.workPhone &&
@@ -115,7 +115,7 @@ export const MainPlaceOfWork = (): JSX.Element => {
                             id='workAdress'
                             name='workAddress'
                             type='text'
-                            label='Work Address*'
+                            label='Work address*'
                         />
                         {
                             errors.workAddress &&
@@ -130,7 +130,7 @@ export const MainPlaceOfWork = (): JSX.Element => {
                             id='chief'
                             name='chief'
                             type='text'
-                            label='Name of the Chief Executive'
+                            label='Name of the chief executive'
                         />
                     </Grid>
                 </Grid>
@@ -206,7 +206,7 @@ export const MainPlaceOfWork = (): JSX.Element => {
                 <Grid container item xs={12} id='typePositionHeldContainer'>
                     <Grid item xs={12} id='typePositionHeldTitle'>
                         <FormLabel component='label'>
-                            Type of Position Held*
+                            Type of position held*
                         </FormLabel>
                     </Grid>
                     <Grid item xs={12} id='typePositionHeldContent'>
@@ -243,7 +243,7 @@ export const MainPlaceOfWork = (): JSX.Element => {
                 <Grid container item xs={12} id='workExperiencePositionHeldContainer'>
                     <Grid item xs={12} id='workExperiencePositionHeldTitle'>
                         <FormLabel component='label'>
-                            Work Experience in the Position Held*
+                            Work experience in the position held*
                         </FormLabel>
                     </Grid>
                     <Grid item xs={12} id='workExperiencePositionHeldContent'>

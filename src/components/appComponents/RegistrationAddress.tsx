@@ -121,7 +121,7 @@ export const RegistrationAddress = (): JSX.Element => {
                 </Grid>
                 <Grid item xs={12} sm={4}>
                     <FormLabel component='legend' color='secondary'>
-                        House Number*
+                        House number*
                     </FormLabel>
                     <Input
                         {...register('houseNumber', {

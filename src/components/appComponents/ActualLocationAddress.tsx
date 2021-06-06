@@ -61,7 +61,7 @@ export const ActualLocationAddress = (): JSX.Element => {
                             id='actualPostcode'
                             type='text'
                             name='actualPostcode'
-                            label='Actual Postcode'
+                            label='Actual postcode'
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
@@ -70,7 +70,7 @@ export const ActualLocationAddress = (): JSX.Element => {
                             id='actualRegion'
                             type='text'
                             name='actualRegion'
-                            label='Actual Region'
+                            label='Actual region'
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -88,7 +88,7 @@ export const ActualLocationAddress = (): JSX.Element => {
                             id='actualStreet'
                             type='text'
                             name='actualStreet'
-                            label='Actual Street'
+                            label='Actual street'
                         />
                     </Grid>
                     <Grid item xs={12} sm={4}>
@@ -97,7 +97,7 @@ export const ActualLocationAddress = (): JSX.Element => {
                             id='actualHouseNumber'
                             type='text'
                             name='actualHouseNumber'
-                            label='Actual House Number'
+                            label='Actual house number'
                         />
                     </Grid>
                     <Grid item xs={12} sm={4}>
@@ -106,7 +106,7 @@ export const ActualLocationAddress = (): JSX.Element => {
                             id='actualHouseBuilding'
                             type='text'
                             name='actualHouseBuilding'
-                            label='Actual House Building'
+                            label='Building'
                         />
                     </Grid>
                     <Grid item xs={12} sm={4}>
@@ -115,14 +115,14 @@ export const ActualLocationAddress = (): JSX.Element => {
                             id='actualApartmentNumber'
                             type='text'
                             name='actualApartmentNumber'
-                            label='Actual Apartment Number'
+                            label='Actual apartment'
                         />
                     </Grid>
                 </Grid>
                 <Grid container item xs={12} id='livingTimeRegionContainer'>
                     <Grid item xs={12} id='livingTimeRegionTitle'>
                         <FormLabel component='legend' color='secondary'>
-                            Living Time in the Region
+                            Living time in the region
                         </FormLabel>
                     </Grid>
                     <Grid item xs={12} id='livingTimeRegionContent'>

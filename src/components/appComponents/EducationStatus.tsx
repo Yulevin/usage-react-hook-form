@@ -57,7 +57,7 @@ export const EducationStatus = (): JSX.Element => {
                     </Grid>
                     <Grid item xs={12} sm={6} id='educationStatusContent'>
                         <FormLabel component='legend' color='secondary'>
-                            Education Status*
+                            Education status*
                         </FormLabel>
                         <FormControl component='fieldset'>
                             <RadioGroup row
@@ -90,7 +90,7 @@ export const EducationStatus = (): JSX.Element => {
                     </Grid>
                     <Grid item xs={12} sm={6} id='FamilyStatusContent'>
                         <FormLabel component='legend' color='secondary'>
-                            Family Status*
+                            Family status*
                         </FormLabel>
                         <FormControl component='fieldset'>
                             <RadioGroup row
@@ -134,7 +134,7 @@ export const EducationStatus = (): JSX.Element => {
                         id='dependent'
                         name='dependent'
                         type='text'
-                        label='How many dependents do you support?*'
+                        label='Do you support dependents?*'
                     />
                     {
                         errors.dependent &&
