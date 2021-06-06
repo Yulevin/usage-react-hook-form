@@ -8,15 +8,33 @@ export const TotalPage = (): JSX.Element => {
     const classes = useGlobalStyles();
     const store = useStore();
 
-    const generalInformationFields = [...store.getState()].find(item => item.id === 'generalInformation');
-    const contactsFields = [...store.getState()].find(item => item.id === 'contacts');
-    const registrationAddressFields = [...store.getState()].find(item => item.id === 'registrationAddress');
-    const actualLocationAddressFields = [...store.getState()].find(item => item.id === 'actualLocationAddress');
-    const educationStatusFields = [...store.getState()].find(item => item.id === 'educationStatus');
-    const employmentFields = [...store.getState()].find(item => item.id === 'employment');
-    const mainPlaceOfWorkFields = [...store.getState()].find(item => item.id === 'mainPlaceOfWork');
-    const moonthlyIncomeFields = [...store.getState()].find(item => item.id === 'moonthlyIncome');
-    const creditParametersFields = [...store.getState()].find(item => item.id === 'creditParameters');
+    const generalInformationFields: string[] = [...store.getState()].find(
+        item => item.id === 'generalInformation'
+    );
+    const contactsFields: string[] = [...store.getState()].find(
+        item => item.id === 'contacts'
+    );
+    const registrationAddressFields: string[] = [...store.getState()].find(
+        item => item.id === 'registrationAddress'
+    );
+    const actualLocationAddressFields: string[] = [...store.getState()].find(
+        item => item.id === 'actualLocationAddress'
+    );
+    const educationStatusFields: string[] = [...store.getState()].find(
+        item => item.id === 'educationStatus'
+    );
+    const employmentFields: string[] = [...store.getState()].find(
+        item => item.id === 'employment'
+    );
+    const mainPlaceOfWorkFields: string[] = [...store.getState()].find(
+        item => item.id === 'mainPlaceOfWork'
+    );
+    const moonthlyIncomeFields: string[] = [...store.getState()].find(
+        item => item.id === 'moonthlyIncome'
+    );
+    const creditParametersFields: string[] = [...store.getState()].find(
+        item => item.id === 'creditParameters'
+    );
 
     return (
         <Grid container item spacing={1} className={classes.container}>
@@ -34,7 +52,7 @@ export const TotalPage = (): JSX.Element => {
                 </Grid>
                 {getTotalPageInfo(generalInformationFields).map((unit, index) => (
                     unit ?
-                        <Grid item xs={6} key={index} className={classes.totalContainer}>
+                        <Grid item xs={12} sm={6} key={index} className={classes.totalContainer}>
                             <Typography>{unit}</Typography>
                         </Grid>
                     : null
@@ -46,7 +64,7 @@ export const TotalPage = (): JSX.Element => {
                 </Grid>
                 {getTotalPageInfo(contactsFields).map((unit, index) => (
                     unit ?
-                        <Grid item xs={6} key={index} className={classes.totalContainer}>
+                        <Grid item xs={12} sm={6} key={index} className={classes.totalContainer}>
                             <Typography>{unit}</Typography>
                         </Grid>
                     : null
@@ -58,7 +76,7 @@ export const TotalPage = (): JSX.Element => {
                 </Grid>
                 {getTotalPageInfo(registrationAddressFields).map((unit, index) => (
                     unit ?
-                        <Grid item xs={6} key={index} className={classes.totalContainer}>
+                        <Grid item xs={12} sm={6} key={index} className={classes.totalContainer}>
                             <Typography>{unit}</Typography>
                         </Grid>
                     : null
@@ -70,7 +88,7 @@ export const TotalPage = (): JSX.Element => {
                 </Grid>
                 {getTotalPageInfo(actualLocationAddressFields).map((unit, index) => (
                     unit ?
-                        <Grid item xs={6} key={index} className={classes.totalContainer}>
+                        <Grid item xs={12} sm={6} key={index} className={classes.totalContainer}>
                             <Typography>{unit}</Typography>
                         </Grid>
                     : null
@@ -82,7 +100,7 @@ export const TotalPage = (): JSX.Element => {
                 </Grid>
                 {getTotalPageInfo(educationStatusFields).map((unit, index) => (
                     unit ?
-                        <Grid item xs={6} key={index} className={classes.totalContainer}>
+                        <Grid item xs={12} sm={6} key={index} className={classes.totalContainer}>
                             <Typography>{unit}</Typography>
                         </Grid>
                     : null
@@ -94,7 +112,7 @@ export const TotalPage = (): JSX.Element => {
                 </Grid>
                 {getTotalPageInfo(employmentFields).map((unit, index) => (
                     unit ?
-                        <Grid item xs={6} key={index} className={classes.totalContainer}>
+                        <Grid item xs={12} sm={6} key={index} className={classes.totalContainer}>
                             <Typography>{unit}</Typography>
                         </Grid>
                     : null
@@ -106,7 +124,7 @@ export const TotalPage = (): JSX.Element => {
                 </Grid>
                 {getTotalPageInfo(mainPlaceOfWorkFields).map((unit, index) => (
                     unit ?
-                        <Grid item xs={6} key={index} className={classes.totalContainer}>
+                        <Grid item xs={12} sm={6} key={index} className={classes.totalContainer}>
                             <Typography>{unit}</Typography>
                         </Grid>
                     : null
@@ -118,7 +136,7 @@ export const TotalPage = (): JSX.Element => {
                 </Grid>
                 {getTotalPageInfo(moonthlyIncomeFields).map((unit, index) => (
                     unit ?
-                        <Grid item xs={6} key={index} className={classes.totalContainer}>
+                        <Grid item xs={12} sm={6} key={index} className={classes.totalContainer}>
                             <Typography>{unit}</Typography>
                         </Grid>
                     : null
@@ -130,7 +148,7 @@ export const TotalPage = (): JSX.Element => {
                 </Grid>
                 {getTotalPageInfo(creditParametersFields).map((unit, index) => (
                     unit ?
-                        <Grid item xs={6} key={index} className={classes.totalContainer}>
+                        <Grid item xs={12} sm={6} key={index} className={classes.totalContainer}>
                             <Typography>{unit}</Typography>
                         </Grid>
                     : null

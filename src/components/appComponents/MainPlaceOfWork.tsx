@@ -35,6 +35,7 @@ export const MainPlaceOfWork = (): JSX.Element => {
 
     const handleBackButton = () => {
         history.goBack();
+        return;
     }
 
     return (

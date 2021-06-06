@@ -31,6 +31,7 @@ export const MonthlyIncome = (): JSX.Element => {
 
     const handleBackButton = (): void => {
         history.goBack();
+        return;
     }
 
     return (
@@ -49,7 +50,7 @@ export const MonthlyIncome = (): JSX.Element => {
                         saepe quam ipsam adipisci dolorem impedit tempore iure!
                     </Typography>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                     <Input
                         {...register('income', {
                             required: '⚠️ This field is required',
@@ -70,7 +71,7 @@ export const MonthlyIncome = (): JSX.Element => {
                         </Typography>
                     }
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                     <Input
                         {...register('addIncome')}
                         id='addIncome'
@@ -79,7 +80,7 @@ export const MonthlyIncome = (): JSX.Element => {
                         name='addIncome'
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                     <Input
                         {...register('pension')}
                         id='pension'
@@ -88,7 +89,7 @@ export const MonthlyIncome = (): JSX.Element => {
                         name='pension'
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                     <Input
                         {...register('otherIncome')}
                         id='otherIncome'

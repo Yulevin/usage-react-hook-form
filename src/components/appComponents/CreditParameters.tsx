@@ -34,6 +34,7 @@ export const CreditParameters = (): JSX.Element => {
 
     const handleBackButton = () => {
         history.goBack();
+        return;
     }
 
     return (

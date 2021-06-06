@@ -31,6 +31,7 @@ export const RegistrationAddress = (): JSX.Element => {
 
     const handleBackButton = (): void => {
         history.goBack();
+        return;
     }
 
     return (

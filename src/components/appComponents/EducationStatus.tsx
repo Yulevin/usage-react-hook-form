@@ -35,6 +35,7 @@ export const EducationStatus = (): JSX.Element => {
 
     const handleBackButton = (): void => {
         history.goBack();
+        return;
     }
 
     return (
@@ -65,7 +66,7 @@ export const EducationStatus = (): JSX.Element => {
                                 })}
                             >
                                 {getRadioButtonContent('educationStatus').map(
-                                    (content) => (
+                                    content => (
                                         content ?
                                             <Grid item xs={12} sm={6} key={content.index}>
                                                 <RadioButton

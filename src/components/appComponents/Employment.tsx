@@ -34,6 +34,7 @@ export const Employment = (): JSX.Element => {
 
     const handleBackButton = (): void => {
         history.goBack();
+        return;
     }
 
     return (

@@ -35,6 +35,7 @@ export const ActualLocationAddress = (): JSX.Element => {
 
     const handleBackButton = (): void => {
         history.goBack();
+        return;
     }
 
     return (

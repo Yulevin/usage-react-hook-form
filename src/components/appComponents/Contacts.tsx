@@ -28,12 +28,12 @@ export const Contacts = (): JSX.Element => {
             ...inputsState,
         }));
         history.push('/RegistrationAddress');
-        console.log(history)
         return;
     }
 
     const handleBackButton = (): void => {
         history.goBack();
+        return;
     }
 
     return (
