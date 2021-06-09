@@ -21,6 +21,9 @@ enum palleteEnum {
     colorWrapper = 'rgba(82, 86, 89, .1)',
 };
 
+const body = document.querySelector('body');
+if (body) body.style.backgroundColor = palleteEnum.colorGrey;
+
 export const useGlobalStyles = makeStyles(() =>
     createStyles({
         container: {
@@ -46,8 +49,16 @@ export const useGlobalStyles = makeStyles(() =>
     }),
 );
 
-const body = document.querySelector('body');
-if (body) body.style.backgroundColor = palleteEnum.colorGrey;
+const AppHeader = React.memo(({title}: {title: string}) => (
+    <Typography
+        component='h1'
+        variant='h4'
+        style={{ margin: '50px 0 25px 0' }}
+        align='center'
+    >
+        {title}
+    </Typography>
+));
 
 export default function App() {
     return (
@@ -55,14 +66,7 @@ export default function App() {
             <Paper elevation={8} style={{ margin: '50px 0px' }}>
                 <Grid container>
                     <Grid item xs={12}>
-                        <Typography
-                            component='h1'
-                            variant='h4'
-                            style={{ margin: '50px 0 25px 0' }}
-                            align='center'
-                        >
-                            Credit Application Form
-                        </Typography>
+                        <AppHeader title='Credit Application Form' />
                     </Grid>
                     <Grid container item xs={12} component='main'>
                         <Router>
